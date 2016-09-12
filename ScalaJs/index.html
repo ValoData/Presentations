@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/gris.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body class="default">
+		<div class="reveal">
+			<div class="slides">
+				<section body class="home">
+					<p>
+					<object data="your.svg" type="image/svg+xml">
+  					<img class="plain" width="300px" src="images/valodata_logo.svg"  />
+					</object>
+					</p>
+					<h1 id="scala-workshop">Scala 2.0 Workshop</h1>
+					<h3 id="email">ulrich@valodata.com</h2>
+					
+				</section>
+				<section>
+					<h2 id="agenda">Agenda</h2>
+					<ol> 
+					<strong><li>Scala</li>
+					<li>Spark</li>
+					<li>RDD Operations</li>
+					<li>Spark SQL</li>
+					<li>Machine Learning</li>
+					<li>Data Visualisation</li>
+					<li>Self Contained Applications</li>
+					</strong>					
+					</ol>
+
+				</section>
+
+				<section>
+					<h1 id="scala-for-spark">Scala for Spark</h1>
+				</section>
+				
+				<section>
+					<h2 id="building-blocks">Building blocks</h2>
+					<ul>
+						<li>Data</li>
+						<li>Expressions</li>
+						<li>Functions</li>
+						<li>Collections</li>
+					</ul>
+				</section>
+
+
+				
+				<section>
+
+					<section>
+						<h2 id="data">Data</h2>
+							<ul>
+								<li>var, val, Naming </li>
+							</ul>
+					</section>
+				
+					<section>
+						<h2 id="data_1">Data</h2>
+						<p>Types:</p>
+					</section>
+
+					<section>
+						<p>Exercise:</p>
+						<p> Using the formula (x*9/5)+32 </p>
+						<p> Find the temperature in Farenheit </p>
+							<section>
+  							<pre><code>
+val tempCel = 24
+val tepmFar = (tempCel*9/5)+32
+						  	</code></pre>
+							</section>
+					</section>
+				
+				</section>
+
+				<section>
+					<h2 id="expression">Expression</h2>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>

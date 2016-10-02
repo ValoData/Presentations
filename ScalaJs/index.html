@@ -37,7 +37,7 @@
 				<section>
 					<h2 id="agenda">Agenda</h2>
 					<ol> 
-					<strong><li>Scala</li>
+					<strong><li>Scala for Spark</li>
 					<li>Spark</li>
 					<li>RDD Operations</li>
 					<li>Spark SQL</li>
@@ -439,7 +439,311 @@ res1: Int = 14</code></pre>
 
 
 				</section>
+				<section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p style="text-align: left">Data structures for collecting one or more values of a given type such as arrays, lists, maps, sets, and trees.</p>
+					<p style="text-align: left">List: An ordered collection (also known as a sequence). The user of this interface has precise control over where in the list each element is inserted. The user can access elements by their integer index (position in the list), and search for elements in the list.</p>
+					<p style="text-align: left">Set: A collection that contains no duplicate elements. More formally, sets contain no pair of elements e1 and e2 such that e1.equals(e2), and at most one null element. As implied by its name, this interface models the mathematical set abstraction.</p>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p>Lists, Sets, and Maps</p>
+					<pre><code>scala> val numbers = List(32, 95, 24, 21, 17)
+numbers: List[Int] = List(32, 95, 24, 21, 17)
 
+scala> val colors = List("red", "green", "blue")
+colors: List[String] = List(red, green, blue)
+
+scala> println(s"I have ${colors.size} colors: $colors")
+I have 3 colors: List(red, green, blue)
+
+scala> colors.head
+res0: String = red
+scala> colors.tail
+res1: List[String] = List(green, blue)
+
+scala> colors(1)
+res2: String = green</code></pre>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p>Lists, Sets, and Maps</p>
+					<pre><code>scala> colors.foreach(println)
+red
+green
+blue
+
+scala> val sizes = colors.map( (c: String) => c.size )
+sizes: List[Int] = List(3, 5, 4)
+
+scala> val numbers = List(32, 95, 24, 21, 17)
+numbers: List[Int] = List(32, 95, 24, 21, 17)
+
+scala> val total = numbers.reduce( (a: Int, b: Int) => a + b )
+total: Int = 189
+
+scala> val numbers = 1 :: 2 :: 3 :: Nil
+numbers: List[Int] = List(1, 2, 3)</code></pre>
+					</section>
+
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p>List mapping operations</p>
+					<table>
+						<thead>
+						<tr>
+						<th>Name</th><th>Example</th><th>Description</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+						<td>collect</td><td>List(0, 1, 0) collect {case 1 =>"ok"}</td><td>Transforms each element using a partial function, retaining applicable elements.</td>
+						</tr>
+						<tr><td>flatMap </td><td>List("milk,tea")
+flatMap (_.split(','))</td><td>Transforms each element using the given function and “flattens” the list of results into this list.</td>
+						</tr>						
+						</tbody>
+					</table>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p>List mapping operations</p>
+					<table>
+						<thead>
+						<tr>
+						<th>Name</th><th>Example</th><th>Description</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>						
+						<td>map</td><td>List("milk","tea")
+						map (_.toUpperCase)</td><td>Transforms each element using the given function.</td>
+						</tr>						
+						</tbody>
+					</table>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p>Math reduction operations</p>
+					<table>
+						<thead>
+						<tr>
+						<th>Name</th><th>Example</th><th>Description</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>						
+						<td>max</td><td>List(41, 59, 26).max</td><td>Finds the maximum value in the list.</td>
+						</tr>
+						<tr>
+						<td>min</td><td>List(10.9, 32.5, 4.23, 5.67).min</td><td>Finds the minimum value in the list.</td>
+						<tr>
+						<td>product <td>List(5, 6, 7).product</td> <td>Multiplies the numbers in the list.</td>
+						</tr>
+						<tr><td>sum <td>List(11.3, 23.5, 7.2).sum</td> <td>Sums up the numbers in the list.</td>
+						</tr>
+						</tbody>
+					</table>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p>Boolean reduction operations</p>
+					<table>
+						<thead>
+						<tr>
+						<th>Name</th><th>Example</th><th>Description</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+						<td>contains</td> <td>List(34, 29, 18) contains 29</td><td>Checks if the list contains this element.</td>
+						</tr>
+						<tr>
+						<td>endsWith</td><td>List(0, 4, 3) endsWith List(4, 3)</td><td>Checks if the list ends with a given list.</td>
+						</tr>
+						<tr>
+						<td>exists</td><td>List(24, 17, 32) exists (_ < 18)</td><td> Checks if a predicate holds true for at least one element in the list.</td>
+						</tr>
+						</tbody>
+					</table>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p>Boolean reduction operations</p>
+					<table>
+						<thead>
+						<tr>
+						<th>Name</th><th>Example</th><th>Description</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+						<td>forall</td><td>List(24, 17, 32) forall (_ < 18)</td><td>Checks if a predicate holds true for every element in the list.</td>
+						</tr>
+						<tr>
+						<td>startsWith</td><td>List(0, 4, 3) startsWith List(0)</td><td>Tests whether the list starts with a given list.</td>			
+						</tr>
+					</tbody>
+					</table>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p>Generic list reduction operations</p>
+					<table>
+						<thead>
+						<tr>
+						<th>Name</th><th>Example</th><th>Description</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+						<td>fold</td><td>List(4, 5, 6).fold(0)(_ + _) <td>Reduces the list given a starting value and a reduction function.reduction function.</td>
+						</tr>
+						<tr>
+						<td>foldLeft</td> <td>List(4, 5, 6).foldLeft(0)(_ + _) <td>Reduces the list from left to right given a starting value and a reduction function.</td>
+						</tr>
+						</tbody>
+					</table>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p>Generic list reduction operations</p>
+					<table>
+						<thead>
+						<tr>
+						<th>Name</th><th>Example</th><th>Description</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+						
+						<tr>
+						<td>foldRight</td> <td>List(4, 5, 6).foldRight(0)(_ + _) <td>Reduces the list from right to left given a starting value and a reduction function.</td>
+						</tr>
+						<tr>
+						<td>reduce</td> <td>List(4, 5, 6).reduce(_ + _) <td>Reduces the list given a reduction function, starting with the first element in the list.</td>
+						</tr>
+						</tbody>
+					</table>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p>Generic list reduction operations</p>
+					<table>
+						<thead>
+						<tr>
+						<th>Name</th><th>Example</th><th>Description</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+						<td>reduceLeft</td> <td>List(4, 5, 6).reduceLeft(_ + _) <td>Reduces the list from left to right given a reduction function, starting with the first element in the list. and a reduction function.</td>
+						</tr>
+						<tr>
+						<td>reduceRight</td> <td>List(4, 5, 6).reduceRight(_ + _) <td>Reduces the list from right to left given a reduction function, starting with the first element in the list.</td>
+					</tbody>
+					</table>
+					</section>
+
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p>Generic list reduction operations</p>
+					<table>
+						<thead>
+						<tr>
+						<th>Name</th><th>Example</th><th>Description</th>
+						</tr>
+						</thead>
+						<tbody>
+						</tr>
+						<tr>
+						<td>scan</td> <td>List(4, 5, 6).scan(0)(_ + _) <td>Takes a starting value and a reduction function and returns a list of each accumulated value.</td>
+						</tr>
+						<tr>
+						<td>scanLeft</td> <td>List(4, 5, 6).scanLeft(0)(_ + _) <td>Takes a starting value and a reduction function and returns a list of each accumulated value from left to right.</td>
+						</tr>
+					</tbody>
+					</table>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p>Generic list reduction operations</p>
+					<table>
+						<thead>
+						<tr>
+						<th>Name</th><th>Example</th><th>Description</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+						<td>scanRight</td> <td>List(4, 5, 6).scanRight(0)(_ + _) <td>Takes a starting value and a reduction function and returns a list of each accumulated value from right to left.</td>
+						</tr>
+						</tbody>
+					</table>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+						<p>Exercise:</p>
+						<p style="text-align: left"> Write a function, first[A](items: List[A], count: Int): List[A] , that re‐ turns the first x number of items in a given list. <br>For example, first(List('a','t','o'), 2) should return List('a','t') .</p>
+						<p style="text-align: left"> You could make this a one-liner by invoking one of the built-in list operations that already performs this task, or (preferably) implement your own solution. <br>Can you do so with a for- loop? <br>With foldLeft ? <br>With a recursive function that only accesses head and tail ?</p>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+						<p>Solution:</p>
+						<pre><code>scala> val chars = ('a' to 'f').toList
+chars: List[Char] = List(a, b, c, d, e, f)
+
+scala> def first[A](items: List[A], count: Int): List[A] = items take count
+first: [A](items: List[A], count: Int)List[A]
+
+scala> first(chars, 3)
+res0: List[Char] = List(a, b, c)</code></pre>
+					</section>
+
+					<section>
+					<h2 id="Collections">Collections</h2>
+						<p>Solution: for loop</p>
+						<pre><code>scala> def first[A](items: List[A], count: Int): List[A] = {
+     val l = for (i <- 0 until count) yield items(i)
+     l.toList
+     }
+first: [A](items: List[A], count: Int)List[A]
+
+scala> first(chars, 3)
+res1: List[Char] = List(a, b, c)</code></pre>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+						<p>Solution: fold left</p>
+						<pre><code>scala> def first[A](items: List[A], count: Int): List[A] = {
+     items.foldLeft[List[A]](Nil) { (a: List[A], i: A) =>
+     if (a.size >= count) a else i :: a
+     }.reverse
+     }
+first: [A](items: List[A], count: Int)List[A]
+
+scala> first(chars, 3)
+res2: List[Char] = List(a, b, c)</code></pre>
+					</section>	
+					<section>
+					<h2 id="Collections">Collections</h2>
+						<p>Solution: recursive function</p>
+						<pre><code>scala> def first[A](items: List[A], count: Int): List[A] = {
+     if (count > 0 && items.tail != Nil) items.head :: first(items.tail, count - 1)
+     else Nil
+     }
+first: [A](items: List[A], count: Int)List[A]
+
+scala> first(chars, 3)
+res3: List[Char] = List(a, b, c)</code></pre>
+					</section>
+
+
+
+
+
+				</section>
 			</div>
 		</div>
 

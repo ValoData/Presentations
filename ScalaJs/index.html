@@ -229,8 +229,10 @@ This makes it possible to use standard mathematical operators (e.g., * and :+ ) 
 						<p> Using the formula (x*9/5)+32 </p>
 						<p> Find the temperature in Farenheit </p>
 						<p>Solution:</p>
-  						<pre><code>val tempCel = 24
-val tepmFar = (tempCel*9/5)+32</code></pre>
+  						<pre><code class="scala">scala> val celcius = 24
+scala> val farenheit = (celcius*9/5)+32
+farenheit: Int = 75
+</code></pre>
 					</section>
 						
 				
@@ -238,29 +240,30 @@ val tepmFar = (tempCel*9/5)+32</code></pre>
 
 				<section>
 					<section>
+					
 						<h2 id="expression">Expressions</h2>					
 						<p><strong>Definition:</strong> A single unit of code that returns a value:</p>
-						<pre><code>scala> "hello"
+						<pre><code class="scala">scala> "hello"
 res0: String = hello
 
 scala> "hel" + 'l' + "o"
 res1: String = hello</code></pre>
-						<p><strong>Syntax:</strong> Defining Values and Variables, Using Expressions:<p>
-						<pre><code>
-val <identifier>[: <type>] = <expression>
-var <identifier>[: <type>] = <expression></code></pre>								
+						<p><strong>Syntax:</strong> Defining Values and Variables, Using Expressions:<p>						
+						<pre><code class="scala">val &lt;identifier&gt;[: &lt;type&gt;] = &lt;expression&gt;
+var &lt;identifier&gt;[: &lt;type&gt;] = &lt;expression&gt;</code></pre>							
 
 					</section>
+
 					<section>
 						<h2 id="expression">Expressions</h2>					
 						<p><strong>Blocks:</strong></p>
-						<pre><code>scala> val x = 5 * 20; val amount = x + 10
+						<pre><code class="scala">scala> val x = 5 * 20; val amount = x + 10
 x: Int = 100
 amount: Int = 110</code></pre>
-						<pre><code>scala> val amount = { val x = 5 * 20; x + 10 }
+						<pre><code class="scala">scala> val amount = { val x = 5 * 20; x + 10 }
 amount: Int = 110</code></pre>		
 						<p>Or accross several lines:</p>
-						<pre><code>scala> val amount = {
+						<pre><code class="scala">scala> val amount = {
 		    val x = 5 * 20
 		    x + 10
 		    }
@@ -271,10 +274,10 @@ amount: Int = 110</code></pre>
 						<h2 id="expression">Expressions</h2>					
 						<p><strong>If...Else expression:</strong></p>
 						<p><strong>Syntax:</strong></p>
-						<pre><code>if (<Boolean expression>) <expression>
-else <expression></code></pre>
+						<pre><code class="scala">if ( &lt;boolean expression=""&gt;)  &lt;expression&gt;
+else  &lt;expression&gt;</code></pre>
 						<p><strong>Example:</strong></p>
-						<pre><code>scala> val x = 10; val y = 20
+						<pre><code class="scala">scala> val x = 10; val y = 20
 x: Int = 10
 y: Int = 20
 scala> val max = if (x > y) x else y
@@ -286,12 +289,12 @@ max: Int = 20</code></pre>
 						<h2 id="expression">Expressions</h2>					
 						<p><strong>Match expression:</strong></p>
 						<p><strong>Syntax:</strong></p>
-						<pre><code><expression> match {
-case <pattern match> => <expression>
+						<pre><code class="scala">&lt;expression&gt; match {
+case &lt;pattern match=""&gt; =&gt; &lt;expression&gt;
 [case...]
 }</code></pre>
 						<p><strong>Example:</strong></p>
-						<pre><code>scala> val x = 10; val y = 20
+						<pre><code class="scala">scala> val x = 10; val y = 20
 x: Int = 10
 y: Int = 20
 scala> val max = x > y match {
@@ -306,9 +309,10 @@ max: Int = 20</code></pre>
 						<h2 id="expression">Expressions</h2>					
 						<p><strong>Loops:</strong></p>
 						<p><strong>Syntax:</strong></p>
-						<pre><code><expression> for (<identifier> <- <iterator>) [yield] [<expression>]</code></pre>
+						<pre><code class="scala">&lt;expression&gt; for (&lt;identifier&gt; <- &lt;iterator&gt;) [yield] [&lt;expression&gt;]
+</code></pre>
 						<p><strong>Example:</strong></p>
-						<pre><code> scala> val threes = for (i <- 1 to 20 if i % 3 == 0) yield i
+						<pre><code class="scala">scala> val threes = for (i <- 1 to 20 if i % 3 == 0) yield i
 threes: scala.collection.immutable.IndexedSeq[Int] = Vector(3, 6, 9, 12, 15, 18) </code></pre>
 									
 
@@ -322,10 +326,15 @@ threes: scala.collection.immutable.IndexedSeq[Int] = Vector(3, 6, 9, 12, 15, 18)
 						<h2 id="expression">Expressions</h2>					
 						<p><strong>Exercise: Solution</strong></p>
 						<p style="text-align: left">Given a double <strong >amount</strong > , write an expression to return “greater” if it is more than zero, “same” if it equals zero, and “less” if it is less than zero. Can you write this with if..else blocks? How about with match expressions?</p>
-						<pre><code>val amount = 1.1
-val valToZero = {if (amount > 0) "greater"
-		else if (amount < 0) "less"
-		else "same"}</code></pre> 						
+						<pre><code class="scala">scala> val amount = 1.1
+scala> if (amount > 0) "greater" else if (amount < 0) "less" else "same"
+res0: String = greater</code></pre> 	
+						<pre><code class="scala">scala> amount match {
+case x if x > 0 => "greater"
+case x if x < 0 => "lesser"
+case x => "same"
+}
+res1: String = greater</code></pre> 					
 					</section>
 				</section>
 				<section>
@@ -338,9 +347,9 @@ across a 50,000-node list, or given to an actor to be executed either locally or
 					<section>
 					<h2 id="functions">Functions</h2>
 					<p><strong>Syntax:</strong> </p>
-					<pre><code> def <identifier>(<identifier>: <type>[, ... ]): <type> = <expression> </code></pre>
+					<pre><code class="scala">def &lt;identifier&gt;(&lt;identifier&gt;: &lt;type&gt;[, ... ]): &lt;type&gt; = &lt;expression&gt;</code></pre>
 					<p><strong>Example:</strong> Function that performs an multiplication</p>
-					<pre><code> scala> def multiplier(x: Int, y: Int): Int = { x * y }
+					<pre><code class="scala">scala> def multiplier(x: Int, y: Int): Int = { x * y }
 multiplier: (x: Int, y: Int)Int
 scala> multiplier(6, 7)
 res0: Int = 42 </code></pre>
@@ -351,7 +360,7 @@ res0: Int = 42 </code></pre>
 					<p><strong>Recursive Functions:</strong> </p>
 					<p style="text-align: left" ><strong>Definition:</strong> A function that may invoke itself, preferably with some type of parameter or external condition that will be checked to avoid an infinite loop</p>
 					<p style="text-align: left" ><strong>Example:</strong> A recursive function that raises an integer by a given positive exponent:</p>
-					<pre><code> scala> def power(x: Int, n: Int): Long = {
+					<pre><code class="scala">scala> def power(x: Int, n: Int): Long = {
 if (n >= 1) x * power(x, n-1)
 else 1
 }
@@ -369,27 +378,64 @@ res6: Long = 256</code></pre>
 						<h2 id="functions">Functions</h2>					
 						<p><strong>Exercise: Solution</strong></p>
 						<p style="text-align: left">Write a function that computes the area of a circle given its radius.</p>
-						<pre><code>def area(r:Double) = 2*3.14*r</code></pre> 						
+						<pre><code class="scala">scala> def area(r:Double) = r * r * 3.14159</code></pre>
+						<p> Or:</p>
+						<pre><code class="scala">scala> import scala.math._
+scala> def area(r:Double) = Pi*pow(r,2)
+</code></pre>						
 					</section>
 					<section>
 					<h2 id="functions">Functions</h2>
 					<p><strong>Partially Applied Functions and Currying</strong> </p>
 					<p>Example of Partialy Applied Function </p>
-					<pre><code>scala> def factorOf(x: Int, y: Int) = y % x == 0
+					<pre><code class="scala">scala> def factorOf(x: Int, y: Int) = y % x == 0
 factorOf: (x: Int, y: Int)Boolean</code></pre>
-					<pre><code>scala> val multipleOf3 = factorOf(3, _: Int)
-multipleOf3: Int => Boolean = <function1>
+					<pre><code class="scala">scala> val multipleOf3 = factorOf(3, _: Int)
+multipleOf3: Int => Boolean = &lt;function1&gt;
 scala> val y = multipleOf3(78)
 y: Boolean = true</code></pre>
+					</section>
+					<section>
+					<h2 id="functions">Functions</h2>
+					<p><strong>Partially Applied Functions and Currying</strong> </p>
 					<p>Example of Currying</p>
-<p>Instead of breaking up a parameter list into applied and unapplied parameters, apply the parameters for one list while leaving another list unapplied.</p>
-					<pre>val f = factorOf _
-scala> val multipleOf3 = factorOf(3) _
-multipleOf3: Int => Boolean = <function1>
-scala> val z = multipleOf3(78)
-z: Boolean = true<code></code></pre>
+<p style="text-align: left">Instead of breaking up a parameter list into applied and unapplied parameters, apply the parameters for one list while leaving another list unapplied.</p>
+					<pre><code class="scala">scala> def factorOf(x: Int)(y: Int) = y % x == 0
+factorOf: (x: Int)(y: Int)Boolean</code></pre>
+					<pre><code class="scala">scala> val multipleOf3 = factorOf(3) _
+multipleOf3: Int => Boolean = &lt;function1&gt;
+scala> val y = multipleOf3(78)
+y: Boolean = true</code></pre>
 					
 					</section>
+					<section>
+					<h2 id="functions">Functions</h2>
+					<p>Exercise:</p>
+					<p style="text-align: left"> Write a function literal that takes two integers and returns the higher number.</p>
+					<p style="text-align: left">Then write a higher-order function that takes a 3-sized tuple of integers plus this function literal, and uses it to return the maximum value in the tuple.</p>
+					</section>
+
+					<section>
+					<h2 id="functions">Functions</h2>
+					<p>Result:</p>
+					<p style="text-align: left"> Write a function literal that takes two integers and returns the higher number. Then
+write a higher-order function that takes a 3-sized tuple of integers plus this function
+literal, and uses it to return the maximum value in the tuple.</p>
+						<pre><code>scala> val max = (x: Int, y: Int) => if (x > y) x else y
+max: (Int, Int) => Int = &lt;function2&gt;
+
+scala> max(23, 32)
+res0: Int = 32</code></pre>
+
+<pre><code>scala> def pickOne(t: (Int, Int, Int), cmp: (Int, Int) => Int): Int = {
+cmp(t._1, cmp(t._2, t._3))
+}
+pickOne: (t: (Int, Int, Int), cmp: (Int, Int) => Int)Int
+
+scala> pickOne( (14, 7, 9), max )
+res1: Int = 14</code></pre>
+					</section>
+					
 
 
 				</section>

@@ -782,10 +782,65 @@ scala> first(chars, 3)
 res3: List[Char] = List(a, b, c)</code></pre>
 					</section>
 
+				</section>
+				<section>
+					<section>
+					<h1 id="Spark">Spark</h1>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+						<h2 id="Spark deploy modes">Spark deploy modes</h2>
 
+						<ul>
+							<li>**Standalone:** Without having Yarn or Mesos, you can run your own cluster by starting a master and workers manually.</li>
+							<li>**Yarn:** Yarn becomes the cluster manager in this mode and of course we have something call Spark Application Master.</li>
+							<li>**Mesos:** The same as standalone mode, except that the cluster manager, which was Spark master, is replaced by Mesos.</li>
+						</ul>
+						</script>
+					</section>
+					<section body class="home">
+					<h2 id="Spark deploy modes">Spark deploy modes</h2>
+					<p>
+					<object data="your.svg" type="image/svg+xml">
+  					<img class="plain" width="300px" src="images/deploy_modes.png"  />
+					</object>
+					</p>
+					<p>Standalone mode is very useful for debugging and testing. With 2-3 virtual machines in your own machine, you can see Spark in action quite well.</p>				
+					</section>
+					<section>
+					<h2 id="Spark pseudo cluster">Spark local (pseudo-cluster)</h2>
+					<p>Start master:</p>
+					<pre><code class="shell">ulrich@ulrich-desktop:/usr/local/spark$./sbin/start-master.sh</code></pre>
+					<p>
+					<object data="your.svg" type="image/svg+xml">
+  					<img class="plain" width="1200px" src="images/pseudoCluster1.png"  />
+					</object>
+					</section>
+					<section>
+					<h2 id="Spark pseudo cluster">Spark local (pseudo-cluster)</h2>
+					<p>Start slaves:</p>
+					<pre><code class="shell">ulrich@ulrich-desktop:/usr/local/spark$./sbin/start-slave.sh spark://ulrich-desktop:7077 --cores 2 --memory 4g</code></pre>
+					<p>
+					<object data="your.svg" type="image/svg+xml">
+  					<img class="plain" width="1200px" src="images/pseudoCluster2.png"  />
+					</object>
+					</section>
+					<section>
+					<p>Configure file: conf/spark-env.sh</p>
+					<pre><code> SPARK_WORKER_CORES=5
+SPARK_WORKER_INSTANCES=2
+SPARK_WORKER_MEMORY=30g
+SPARK_EXECUTOR_MEMORY=30g
+</code></pre>
 
+					<p>Start the workers </p>
 
-
+					<pre><code>ulrich@ulrich-desktop:/usr/local/spark$./sbin/start-slave.sh spark://ulrich-desktop:7077</code></pre>
+					<p>
+					<object data="your.svg" type="image/svg+xml">
+  					<img class="plain" width="1200px" src="images/pseudoCluster3.png"  />
+					</object>
+					</section>
 				</section>
 			</div>
 		</div>

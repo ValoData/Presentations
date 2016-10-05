@@ -810,7 +810,7 @@ res3: List[Char] = List(a, b, c)</code></pre>
 					<section>
 					<h2 id="Spark pseudo cluster">Spark local (pseudo-cluster)</h2>
 					<p>Start master:</p>
-					<pre><code class="shell">ulrich@ulrich-desktop:/usr/local/spark$./sbin/start-master.sh</code></pre>
+					<pre><code class="shell">$./sbin/start-master.sh</code></pre>
 					<p>
 					<object data="your.svg" type="image/svg+xml">
   					<img class="plain" width="1200px" src="images/pseudoCluster1.png"  />
@@ -819,7 +819,7 @@ res3: List[Char] = List(a, b, c)</code></pre>
 					<section>
 					<h2 id="Spark pseudo cluster">Spark local (pseudo-cluster)</h2>
 					<p>Start slaves:</p>
-					<pre><code class="shell">ulrich@ulrich-desktop:/usr/local/spark$./sbin/start-slave.sh spark://ulrich-desktop:7077 --cores 2 --memory 4g</code></pre>
+					<pre><code class="shell">$./sbin/start-slave.sh spark://ulrich-desktop:7077 --cores 2 --memory 4g</code></pre>
 					<p>
 					<object data="your.svg" type="image/svg+xml">
   					<img class="plain" width="1200px" src="images/pseudoCluster2.png"  />
@@ -835,10 +835,61 @@ SPARK_EXECUTOR_MEMORY=30g
 
 					<p>Start the workers </p>
 
-					<pre><code>ulrich@ulrich-desktop:/usr/local/spark$./sbin/start-slave.sh spark://ulrich-desktop:7077</code></pre>
+					<pre><code>$./sbin/start-slave.sh spark://ulrich-desktop:7077</code></pre>
 					<p>
 					<object data="your.svg" type="image/svg+xml">
   					<img class="plain" width="1200px" src="images/pseudoCluster3.png"  />
+					</object>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+						<h2 id="Executing Spark Code">Executing Spark Code</h2>
+
+						<ul>
+							<li>**Spark Submit**</li>
+							<li>**Spark Shell**</li>
+							<li>**Notebookes**</li>
+						</ul>
+						</script>
+					</section>
+					<section>
+					<p>Spark Submit</p>
+					<pre><code>./bin/spark-submit \
+  --class <main-class> \#The entry point for your application (e.g. org.apache.spark.examples.SparkPi)
+  --master <master-url> \#The master URL for the cluster (e.g. spark://23.195.26.187:7077)
+  --deploy-mode <deploy-mode> \#Whether the driver is deplyed on the worker nodes (cluster) or locally (client) (default: client) †
+  --conf <key>=<value> \#Arbitrary Spark configuration property in key=value format.
+  ... # other options
+  <application-jar> \#Path to a bundled jar including your application and all dependencies. 
+  [application-arguments]#Arguments passed to the main method of your main class, if any </code></pre>
+  					</section>
+					<section>
+					<p>Spark Submit-Example</p>
+					<pre><code># Run application locally on 8 cores
+./bin/spark-submit \
+  --class org.apache.spark.examples.SparkPi \
+  --master local[8] \
+  /path/to/examples.jar \
+  100</pre></code>
+  					
+					</section>
+					<section>
+					<p>Spark Shell</p>
+					<pre><code>$./bin/spark-shell</code></pre>
+					<pre><code>scala> val textFile = sc.textFile("README.md")
+textFile: org.apache.spark.rdd.RDD[String] = README.md MapPartitionsRDD[1] at textFile at <console>:25
+scala> textFile.count() // Number of items in this RDD
+res0: Long = 126
+
+scala> textFile.first() // First item in this RDD
+res1: String = # Apache Spark</code></pre>
+					</section>
+					<section>
+					<p>Notebooks</p>
+					<pre><code>$./bin/zeppelin-daemon.sh start</code></pre>
+					<p>
+					<object data="your.svg" type="image/svg+xml">
+  					<img class="plain" width="300px" src="images/deploy_modes.png"  />
 					</object>
 					</section>
 				</section>

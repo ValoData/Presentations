@@ -483,11 +483,13 @@ res1: Int = 14</code></pre>
 
 				</section>
 				<section>
-					<section>
+					<section data-markdown>
+						<script type="text/template">
 					<h2 id="Collections">Collections</h2>
 					<p style="text-align: left">Data structures for collecting one or more values of a given type such as arrays, lists, maps, sets, and trees.</p>
-					<p style="text-align: left">List: An ordered collection (also known as a sequence). The user of this interface has precise control over where in the list each element is inserted. The user can access elements by their integer index (position in the list), and search for elements in the list.</p>
-					<p style="text-align: left">Set: A collection that contains no duplicate elements. More formally, sets contain no pair of elements e1 and e2 such that e1.equals(e2), and at most one null element. As implied by its name, this interface models the mathematical set abstraction.</p>
+					<p style="text-align: left">**List:** An ordered collection (sequence). The user can access elements by their integer index.</p>
+					<p style="text-align: left">**Set:** A collection that contains no duplicate elements.</p>
+					</script>
 					</section>
 					<section>
 					<h2 id="Collections">Collections</h2>
@@ -784,8 +786,13 @@ res3: List[Char] = List(a, b, c)</code></pre>
 
 				</section>
 				<section>
-					<section>
-					<h1 id="Spark">Spark</h1>
+					<section data-markdown>
+					<script type="text/template">
+					<h1 id="Spark">II- Spark</h1>
+						<ul>
+							<li>**Spark deploy modes**</li>
+							<li>**Executing Spark Code**</li>
+						</ul>
 					</section>
 					<section data-markdown>
 						<script type="text/template">
@@ -869,7 +876,7 @@ SPARK_EXECUTOR_MEMORY=30g
 ./bin/spark-submit \
   --class org.apache.spark.examples.SparkPi \
   --master local[8] \
-  /path/to/examples.jar \
+  /usr/local/spark-2/examples/jars/spark-examples_2.11-2.0.0.jar\
   100</pre></code>
   					
 					</section>
@@ -877,7 +884,7 @@ SPARK_EXECUTOR_MEMORY=30g
 					<p>Spark Shell</p>
 					<pre><code>$./bin/spark-shell</code></pre>
 					<pre><code>scala> val textFile = sc.textFile("README.md")
-textFile: org.apache.spark.rdd.RDD[String] = README.md MapPartitionsRDD[1] at textFile at <console>:25
+textFile: org.apache.spark.rdd.RDD[String] = README.md MapPartitionsRDD[1] at textFile at &lt;console&gt;:25
 scala> textFile.count() // Number of items in this RDD
 res0: Long = 126
 
@@ -889,9 +896,108 @@ res1: String = # Apache Spark</code></pre>
 					<pre><code>$./bin/zeppelin-daemon.sh start</code></pre>
 					<p>
 					<object data="your.svg" type="image/svg+xml">
-  					<img class="plain" width="300px" src="images/deploy_modes.png"  />
+  					<img class="plain" width="900px" src="images/Zeppelin.png"  />
 					</object>
 					</section>
+				</section>
+				<section>
+					<section data-markdown>
+					<script type="text/template">
+					<h1 id="RDD">III- RDD Operations</h1>
+						<ul>
+							<li>**Creating an RDD**</li>
+							<li>**Transformations**</li>
+							<li>**Actions**</li>
+						</ul>
+					</script>
+					</section>
+					<section>
+					<h2 id="Creating an RDD">Creating an RDD</h2>
+					<pre><code>//textFile() method
+scala> val textFile = sc.textFile("README.md")
+textFile: org.apache.spark.rdd.RDD[String] = README.md MapPartitionsRDD[1] at textFile at &lt;console&gt;:24
+
+
+//parallelize() method
+scala> val sample = sc.parallelize(List(1,2,3))
+sample: org.apache.spark.rdd.RDD[Int] = ParallelCollectionRDD[0] at parallelize at &lt;console&gt;:24</code></pre>
+					</section>
+					<section data-markdown>
+					<script type="text/template">
+					<h2 id="Transformations">Transformations</h2>
+					<p style="text-align: left" > **Transformations** are operations on RDDs that return a new RDD RDD[Type]. Transformed RDDs are computed lazily.</br>**Lazy evaluation** means that Spark will not begin to execute until an **action** is requested. <br> When a transformation is called on an RDD (for instance, map() or textFile()), the operation is not immediately performed.<br> Instead, Spark internally records metadata to indicate that this operation has been requested.</p>
+					
+					</script>
+					</section>
+					<section >
+					<h2 id="Actions">Actions</h2>
+					<p style="text-align: left"><b>Actions</b> are opeartions on RDDs that return a value or write data to a target storage.<br>Actions force the evaluation of the transformations.</p>
+					</section>
+					<section>
+					<h2 id="Main Transformations">Main Transformations</h2>
+					<pre><code>scala> val data = sc.parallelize(List(1,2,3,4))
+
+//map(funct) - Return a new RDD by passing each element of the source.
+//Get the square of the numbers
+scala>val result = data.map(x=>x*x)
+result: org.apache.spark.rdd.RDD[Int] = MapPartitionsRDD[8] at map at &lt;console&gt;:26
+scala>println(result.collect.mkString(","))
+1,4,9,16
+
+//filter(func) - Return a new RDD by selecting the elements of the 
+//source on which func returns true.
+//Select odd numbers
+scala> val result = data.filter(x=>x % 2 == 0)
+result: org.apache.spark.rdd.RDD[Int] = MapPartitionsRDD[9] at filter at &lt;console&gt;:26
+scala> println(result.collect.mkString(","))
+2,4
+
+scala> data.flatMap(1 to _).collect
+Array[Int] = Array(1, 1, 2, 1, 2, 3, 1, 2, 3, 4)
+
+
+//union or ++ (otherDataset) - Return a new dataset that contains the union of the elements in the source dataset and the argument.
+scala> val data1 = sc.parallelize(List(3,4,5,6))
+data1: org.apache.spark.rdd.RDD[Int] = ParallelCollectionRDD[1] at parallelize at &lt;console&gt;:24
+scala> data.union(data1).collect//or data++data1
+res0: Array[Int] = Array(1, 2, 3, 4, 3, 4, 5, 6)
+
+
+
+//intersection(otherDataset) - Return a new RDD with the elements commun to both source RDD. 
+scala> data.intersection(data1).collect
+res5: Array[Int] = Array(3, 4)
+
+//distinct([numTasks]) -- Return a new dataset that contains the distinct elements of the source dataset.
+scala> (data++data1).distinct.collect
+res9: Array[Int] = Array(1, 2, 3, 4, 5, 6)
+
+//groupByKey([numTasks]) -
+scala> val pairData = sc.parallelize(Array(("a", 1), ("b", 1), ("a", 2), ("a", 2), ("b", 1), ("b", 3),("b", 5), ("b", 9))) 
+pairData: org.apache.spark.rdd.RDD[(String, Int)] = ParallelCollectionRDD[27] at parallelize at &lt;console&gt;:24
+
+scala> pairData.collect
+res15: Array[(String, Int)] = Array((a,1), (b,1), (a,2), (a,2), (b,1), (b,3), (b,5), (b,9))
+
+scala> pairData.groupByKey().collect
+res17: Array[(String, Iterable[Int])] = Array((a,CompactBuffer(1, 2, 2)), (b,CompactBuffer(1, 1, 3, 5, 9)))
+
+//sortByKey([ascending], [numTasks])
+scala> pairData.sortByKey(true).collect
+res21: Array[(String, Int)] = Array((a,1), (a,2), (a,2), (b,1), (b,1), (b,3), (b,5), (b,9))
+
+//join(otherDataset, [numTasks]) - Performs an inner join using two key-value RDDs.
+scala> pairData.join(pairData1).collect
+res23: Array[(String, (Int, Int))] = Array((a,(1,1)), (a,(2,1)), (a,(2,1)), (b,(1,1)), (b,(1,1)), (b,(3,1)), (b,(5,1)), (b,(9,1)))
+
+scala> pairData.join(pairData1).collect
+res23: Array[(String, (Int, Int))] = Array((a,(1,1)), (a,(2,1)), (a,(2,1)), (b,(1,1)), (b,(1,1)), (b,(3,1)), (b,(5,1)), (b,(9,1)))
+
+
+</code></pre>
+
+					</section>
+					
 				</section>
 			</div>
 		</div>

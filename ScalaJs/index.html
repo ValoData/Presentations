@@ -972,32 +972,137 @@ res5: Array[Int] = Array(3, 4)
 scala> (data++data1).distinct.collect
 res9: Array[Int] = Array(1, 2, 3, 4, 5, 6)
 
-//groupByKey([numTasks]) -
-scala> val pairData = sc.parallelize(Array(("a", 1), ("b", 1), ("a", 2), ("a", 2), ("b", 1), ("b", 3),("b", 5), ("b", 9))) 
-pairData: org.apache.spark.rdd.RDD[(String, Int)] = ParallelCollectionRDD[27] at parallelize at &lt;console&gt;:24
+//Key-value pair data
 
-scala> pairData.collect
-res15: Array[(String, Int)] = Array((a,1), (b,1), (a,2), (a,2), (b,1), (b,3), (b,5), (b,9))
+scala> val keyData = sc.parallelize(List(("Apple",10), ("Pear",15), ("Banana",5), ("Melon",20),  ("Banana",4)))
+keyData: org.apache.spark.rdd.RDD[(String, Int)] = ParallelCollectionRDD[19] at parallelize at &lt;console&gt;:24
 
-scala> pairData.groupByKey().collect
-res17: Array[(String, Iterable[Int])] = Array((a,CompactBuffer(1, 2, 2)), (b,CompactBuffer(1, 1, 3, 5, 9)))
+//countByKey()- Returns a hashmap of (K, Int) pairs with the count of each key for key-vlaue paire type of RDDs.
+scala> keyData.countByKey
+res20: scala.collection.Map[String,Long] = Map(Banana -> 2, Pear -> 1, Melon -> 1, Apple -> 1)
+
+//groupByKey() - When called on a dataset of (K, V) pairs, returns a dataset of (K, Iterable&lt;V&gt;) pairs. 
+scala> keyData.groupByKey.foreach(println)
+(Pear,CompactBuffer(15))
+(Apple,CompactBuffer(10))
+(Banana,CompactBuffer(5, 4))
+(Melon,CompactBuffer(20))
 
 //sortByKey([ascending], [numTasks])
-scala> pairData.sortByKey(true).collect
-res21: Array[(String, Int)] = Array((a,1), (a,2), (a,2), (b,1), (b,1), (b,3), (b,5), (b,9))
+scala> keyData.sortByKey(true).collect
+res3: Array[(String, Int)] = Array((Apple,10), (Banana,5), (Banana,4), (Melon,20), (Pear,15))
 
 //join(otherDataset, [numTasks]) - Performs an inner join using two key-value RDDs.
-scala> pairData.join(pairData1).collect
-res23: Array[(String, (Int, Int))] = Array((a,(1,1)), (a,(2,1)), (a,(2,1)), (b,(1,1)), (b,(1,1)), (b,(3,1)), (b,(5,1)), (b,(9,1)))
+scala> val keyData1 = sc.parallelize(List(("Apple",4), ("Pear",1)))
+keyData1: org.apache.spark.rdd.RDD[(String, Int)] = ParallelCollectionRDD[1] at parallelize at &lt;console&gt;:24
 
-scala> pairData.join(pairData1).collect
-res23: Array[(String, (Int, Int))] = Array((a,(1,1)), (a,(2,1)), (a,(2,1)), (b,(1,1)), (b,(1,1)), (b,(3,1)), (b,(5,1)), (b,(9,1)))
+scala> keyData.join(keyData1).collect
+res1: Array[(String, (Int, Int))] = Array((Pear,(15,1)), (Apple,(10,4)))
 
 
 </code></pre>
 
 					</section>
-					
+					<section>
+					<h2 id="Main Actions">Main Actions</h2>
+					<pre><code>scala> val data = sc.parallelize(List(1,2,3,4))
+//reduce(func) - Aggregate the elements of the dataset using a function func (which takes two arguments and returns one)
+scala> val data = sc.parallelize(List(1,2,3,4))
+data: org.apache.spark.rdd.RDD[Int] = ParallelCollectionRDD[0] at parallelize at &lt;console&gt;:24
+
+scala> data.reduce(_ + _)
+res0: Int = 10
+
+//collect() - Return all the elements of the dataset as an array at the driver program.
+scala> data.collect
+res2: Array[Int] = Array(1, 2, 3, 4)
+
+//count() - Return the number of elements in the dataset. 
+scala> data.count
+res3: Long = 4
+
+//first() - Return the first element of the dataset (similar to take(1)).
+scala> data.first
+res4: Int = 1
+
+//take(n) - Return an array with the first n elements of the dataset. 
+scala> data.take(2)
+res5: Array[Int] = Array(1, 2)
+
+//takeSample(withReplacement, num, [seed]) 	Return an array with a random sample of num elements of the dataset, with or without replacement, optionally pre-specifying a random number generator seed.
+scala> data.takeSample(true, 2, 0)
+res6: Array[Int] = Array(3, 2)
+
+//foreach(func) - Run a function func on each element of the dataset. 
+scala> data.foreach(println)
+1
+2
+3
+4
+
+//Key-value paires
+
+scala> val keyData = sc.parallelize(List(("Apple",10), ("Pear",15), ("Banana",5), ("Melon",20),  ("Banana",4)))
+keyData: org.apache.spark.rdd.RDD[(String, Int)] = ParallelCollectionRDD[19] at parallelize at &lt;console&gt;:24
+
+
+//countByKey()- Returns a hashmap of (K, Int) pairs with the count of each key for key-vlaue paire type of RDDs.
+scala> keyData.countByKey
+res20: scala.collection.Map[String,Long] = Map(Banana -> 2, Pear -> 1, Melon -> 1, Apple -> 1)
+
+//saveAsTextFile(path) - Write the elements of the dataset as a text file (or set of text files) in a given directory in the local filesystem, HDFS or any other Hadoop-supported file system.
+scala> data.saveAsTextFile("~/test.txt")</code></pre>
+
+					</section>
+					<section>
+					<h2 id="Transformations & Actions">Transformations & Actions</h2>
+					<p>Exercise:</p>
+					<p style="text-align: left"> Using the README.md and CHANGES.txt files in the Spark directory:</p>
+					<ol>
+					<li>create RDDs to filter each line for the keyword “Spark” eand print the number of occurences</li>
+					<li>perform a WordCount on each, i.e., so the results are (K, V) pairs of (word, count)</li>
+					<li>join the two RDDs</li>
+					</section>
+					<section>
+					<p>Solution:</p>
+					<pre><code>//Importing the data
+scala> val readMeFile = sc.textFile("/usr/local/spark-2/README.md")
+readMeFile: org.apache.spark.rdd.RDD[String] = /usr/local/spark-2/README.md MapPartitionsRDD[9] at textFile at &lt;console&gt;:24
+
+scala> val changesFile = sc.textFile("/usr/local/spark-2/NOTICE")
+changesFile: org.apache.spark.rdd.RDD[String] = /usr/local/spark-2/NOTICE MapPartitionsRDD[11] at textFile at &lt;console&gt;:24
+
+//Count the number of occurence for the word "Spark"
+scala> readMeFile.filter(line => line.contains("Spark")).count
+res0: Long = 19
+
+scala> changesFile.filter(line => line.contains("Spark")).count
+res1: Long = 1
+
+//Classic word count
+scala>val countsReadMe = readMeFile.flatMap(line => line.split(" "))
+                 .map(word => (word, 1))
+                 .reduceByKey(_ + _)
+countsReadMe: org.apache.spark.rdd.RDD[(String, Int)] = ShuffledRDD[11] at reduceByKey at &lt;console&gt;:28
+
+scala>val countsChangesFile = changesFile .flatMap(line => line.split(" "))
+                 .map(word => (word, 1))
+                 .reduceByKey(_ + _)
+
+countsChangesFile: org.apache.spark.rdd.RDD[(String, Int)] = ShuffledRDD[14] at reduceByKey at &lt;console&gt;:28
+
+//Key-value paire RDD created for countsChangesFile with K=word V=Occurence
+scala> countsChangesFile.take(10)
+res3: Array[(String, Int)] = Array((created,1), (Unless,4), (Technology,1), (Sébastien,1), (Open,1), (lmpar,1), (event,1), (notice(s),1), (Grant,1), (include,1))
+
+//Join the two RDD by key
+scala> countsReadMe.join(countsChangesFile).take(5)
+res4: Array[(String, (Int, Int))] = Array((version,(1,5)), (file,(1,10)), (are,(1,11)), (refer,(2,1)), (Streaming,(1,1)))
+
+//Sum the values
+scala> countsReadMe.join(countsChangesFile).mapValues(x => x._1+x._2).take(5)
+res5: Array[(String, Int)] = Array((version,6), (file,11), (are,12), (refer,3), (Streaming,2))</code></pre>
+				
 				</section>
 			</div>
 		</div>

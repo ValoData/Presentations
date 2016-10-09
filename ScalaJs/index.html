@@ -24,6 +24,40 @@
 	<body class="default">
 		<div class="reveal">
 			<div class="slides">
+				<section>
+					<h2 id="Prerequisites">Prerequisites</h2>
+					<table>
+						
+						<tbody>
+						<tr>
+						<td>Java 8 JRE </td>
+						<td>sudo apt-get install openjdk-8-jre</a></td>
+						<td></td>
+						</tr>
+						<tr>
+						<td>Spark</td>
+						<td><a href="http://spark.apache.org/downloads.html">http://spark.apache.org/<br>downloads.html</a></td>
+						<td>Latest version & pre-built</td>
+						</tr>
+						<tr>
+						<td>Zeppelin</td>
+						<td><a href="http://zeppelin.apache.org/download.html">http://zeppelin.apache.org/<br>download.html</td>
+						<td>Binary & all interpreters</td>
+						</tr>
+						<tr>
+						<td>IntelliJ IDEA</td>
+						<td><a href="https://www.jetbrains.com/idea">https://www.jetbrains.com/idea/</td>
+						<td>Community edition</td>
+						</tr>
+						<tr>
+						<td>Scala (2.11.x)</td>
+						<td><a href="http://www.scala-lang.org/download/">http://www.scala-lang.org/download/</td>
+						<td>Community edition</td>
+						</tr>
+						</tbody>
+					</table> 
+					
+				</section>
 				<section body class="home">
 					<p>
 					<object data="your.svg" type="image/svg+xml">
@@ -786,6 +820,7 @@ res3: List[Char] = List(a, b, c)</code></pre>
 
 				</section>
 				<section>
+
 					<section data-markdown>
 					<script type="text/template">
 					<h1 id="Spark">II- Spark</h1>
@@ -793,6 +828,7 @@ res3: List[Char] = List(a, b, c)</code></pre>
 							<li>**Spark deploy modes**</li>
 							<li>**Executing Spark Code**</li>
 						</ul>
+					</script>
 					</section>
 					<section data-markdown>
 						<script type="text/template">
@@ -1103,6 +1139,19 @@ res4: Array[(String, (Int, Int))] = Array((version,(1,5)), (file,(1,10)), (are,(
 scala> countsReadMe.join(countsChangesFile).mapValues(x => x._1+x._2).take(5)
 res5: Array[(String, Int)] = Array((version,6), (file,11), (are,12), (refer,3), (Streaming,2))</code></pre>
 				
+					</section>
+				</section>
+				<section>
+					<section data-markdown>
+					<script type="text/template">
+					<h1 id="Spark SQL">IV- Spark SQL</h1>
+						<ul>
+							<li>**Datasets and DataFrames**</li>
+							<li>**Running SQL querries**</li>
+							<li>**UDFs**</li>
+						</ul>
+					</script>
+					</section>
 				</section>
 			</div>
 		</div>

@@ -1182,9 +1182,9 @@ res5: Array[(String, Int)] = Array((version,6), (file,11), (are,12), (refer,3), 
 					<script type="text/template">
 						<h1 id="RDD">VII- Self-Contained App</h1>
 						<ul>
-							<li>**Creating an RDD**</li>
-							<li>**Transformations**</li>
-							<li>**Actions**</li>
+							<li>**Setting up IntelliJ**</li>
+							<li>**Execute in IntelliJ**</li>
+							<li>**Creating & executting a Jar**</li>
 						</ul>
 					</script>
 					</section>
@@ -1264,9 +1264,16 @@ object WordCount {
 					</section>
 					<section>
 						<h2 id="Create Jar">Create a Jar</h2>
+						<p style="text-align: left">File&gt; Project Structure&gt; Project Settings&gt; Artifacts&gt; Jar&gt; From modules with dependencies..<br>
+
+						OK<br>
+
+						Build | Build Artifact</p>
 					</section>
 					<section>
 						<h2 id="Spark Submit">Spark Submit</h2>
+						<pre><code>$ spark-submit training.jar "/usr/local/spark-2/README.md"</code></pre>
+
 					</section>
 				</section>
 			</div>

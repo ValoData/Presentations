@@ -1153,6 +1153,122 @@ res5: Array[(String, Int)] = Array((version,6), (file,11), (are,12), (refer,3), 
 					</script>
 					</section>
 				</section>
+				<section>
+					<section data-markdown>
+					<script type="text/template">
+					<h1 id="Spark SQL">V- Machine Learning</h1>
+						<ul>
+							<li>**Datasets and DataFrames**</li>
+							<li>**Running SQL querries**</li>
+							<li>**UDFs**</li>
+						</ul>
+					</script>
+					</section>
+				</section>
+				<section>
+					<section data-markdown>
+					<script type="text/template">
+					<h1 id="Spark SQL">VI- Data Visualisation</h1>
+						<ul>
+							<li>**Datasets and DataFrames**</li>
+							<li>**Running SQL querries**</li>
+							<li>**UDFs**</li>
+						</ul>
+					</script>
+					</section>
+				</section>
+				<section>
+					<section data-markdown>
+					<script type="text/template">
+						<h1 id="RDD">VII- Self-Contained App</h1>
+						<ul>
+							<li>**Creating an RDD**</li>
+							<li>**Transformations**</li>
+							<li>**Actions**</li>
+						</ul>
+					</script>
+					</section>
+					<section>
+					<h2 id="Install Scala Plug in">Install Scala Plug-in</h2>
+						<p>File&gt;Settings&gt;Pluggins</p>
+					</section>
+					<section>
+						<h2 id="Create a new project">Create a new project</h2>
+						<p>File&gt;New&gt;Project</p>
+						<object data="your.svg" type="image/svg+xml">
+						<img class="plain" width="1000px" src="images/NewProject.png"  />
+						</object>
+				
+					</section>
+					<section>
+						<h2 id="Create build.sbt">Create build.sbt</h2>
+						<p>Right click on project name</p>
+						<p>New&gt;File</p>
+						<object data="your.svg" type="image/svg+xml">
+						<img class="plain" width="1000px" src="images/create_buildsbt.png"  />
+						</object>
+				
+					</section>
+					<section>
+						<h2 id="Edit build.sbt">Edit build.sbt</h2>
+						<object data="your.svg" type="image/svg+xml">
+						<img class="plain" width="1000px" src="images/edit_buildsbt.png"  />
+						</object>
+				
+					</section>
+					<section>
+						<h2 id="Import external libraries">Import External Libraries</h2>
+						<p>File&gt;Project Structure&gt;Libraries&gt;+&gt;From Maven
+						<br>Choose the latest version&gt;ok</p>
+						<object data="your.svg" type="image/svg+xml">
+						<img class="plain" width="1000px" src="images/import_dependencies.png"  />
+						</object>
+										
+					</section>
+					<section>
+						<h2 id="Create code file">Create code file</h2>
+						<p>create main folder under src</p>
+						<p>right click new&gt;scala script&gt;wordCount.scala</p>
+						<pre><code>import org.apache.spark.{SparkConf, SparkContext}
+
+/**
+  * Created by ulrich
+  */
+object WordCount {
+
+  def main(args: Array[String]){
+    val conf = new SparkConf()
+        .setMaster("local[*]")
+        .setAppName("Test Spark")
+        .set("spark.executor.memory", "2g")
+
+    val sc = new SparkContext(conf)
+
+    val lines = sc.textFile(args(0))
+
+    val counts = lines.flatMap(line => line.split(" "))
+        .map(word => (word,1))
+        .reduceByKey(_+_)
+    counts.collect.foreach(println)
+  }
+
+}</code></pre>
+										
+					</section>
+					<section>
+						<h2 id="Run">Run the code</h2>
+						<p>Run&gt;Edit&gt;configuration&gt;program argument&gt;path to txt file  </p>
+						<object data="your.svg" type="image/svg+xml">
+						<img class="plain" width="650px" src="images/runIntellij.png"  />
+						</object>
+					</section>
+					<section>
+						<h2 id="Create Jar">Create a Jar</h2>
+					</section>
+					<section>
+						<h2 id="Spark Submit">Spark Submit</h2>
+					</section>
+				</section>
 			</div>
 		</div>
 

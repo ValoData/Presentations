@@ -1,0 +1,917 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Spark 2.0</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/gris.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body class="default">
+		<div class="reveal">
+			<div class="slides">
+				<section body class="home">
+					<p>
+					<object data="your.svg" type="image/svg+xml">
+  					<img class="plain" width="300px" src="images/valodata_logo.svg"  />
+					</object>
+					</p>
+					<h1 id="scala-workshop">Scala 2.0 Workshop</h1>
+					<h3 id="email">ulrich@valodata.com - @valodata</h3>
+					
+				</section>
+				<section>
+					<h2 id="agenda">Agenda</h2>
+					<ol> 
+					<strong><li>Scala for Spark</li>
+					<li>Spark</li>
+					<li>RDD Operations</li>
+					<li>Spark SQL</li>
+					<li>Machine Learning</li>
+					<li>Data Visualisation</li>
+					<li>Self Contained Apps</li>
+					</strong>					
+					</ol>
+
+				</section>
+				<section>
+					<section>
+						<h2 id="Introduction">Introduction:</h2>					
+						<h1 id="Hadoop & Spark">Hadoop & Spark</h1>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+						<h2 id="Hadoop Components">Hadoop Components</h2>
+						<ul>
+							<li>**Hadoop Common:** The common utilities that support the other Hadoop modules.</li>
+							<li>**Hadoop Distributed File System (HDFS™):** A distributed file system that provides high-throughput access to application data.</li>
+							<li>**Hadoop YARN:** A framework for job scheduling and cluster resource management.</li>
+							<li>**Hadoop MapReduce:** A YARN-based system for parallel processing of large data sets.</li>
+						</ul>
+						</script>
+					</section>
+					<section>
+						<h2 id="Hadoop Components">Hadoop Components + Native App</h2>
+						<object data="your.svg" type="image/svg+xml">
+						<img class="plain" width="1000px" src="images/hadoopEcosystem.png"  />
+						</object>
+				
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+						<h2 id="Spark Ecosystem">Spark Ecosystem</h2>
+						<ul>
+							<li>Languages API</li>
+							<li>Libraries</li>
+							<li>Data</li>
+						</ul>
+						</script>
+					</section>
+					<section>
+						<h2 id="Spark Ecosystem"> Spark Ecosystem</h2>
+						<p>
+						<object data="your.svg" type="image/svg+xml">
+						<img class="plain" width="1000px" src="images/sparkEcosystem.png"  />
+						</object>
+						</p>						
+						</script>
+					</section>
+					
+				</section>
+				<section>
+					<h1 id="scala-for-spark">I - Scala for Spark</h1>
+				</section>
+				
+				<section>
+					<h2 id="building-blocks">Scala Building Blocks</h2>
+					<ul>
+						<li>Data</li>
+						<li>Expressions</li>
+						<li>Functions</li>
+						<li>Collections</li>
+					</ul>
+				</section>
+
+
+				
+				<section>
+
+					<section>
+						<h2 id="data">Data</h2>
+							<ul>
+								<li>Literals, Values, Variables, Types and Naming </li>
+							</ul>
+					</section>
+					<section>
+					<h2 id="data_1">Data</h2> 
+					<p>Numeric Types:</p>
+
+					<table>
+						<thead>
+						<tr>
+						<th>Name</th>
+						<th>Description</th>
+						<th>Size</th>
+						<th>Min</th>
+						<th>Max</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+						<td>Byte</td>
+						<td>Signed integer</td>
+						<td>1byte</td>
+						<td>–127</td>
+						<td>128</td>
+						</tr>
+						<tr>
+						<td>Short</td>
+						<td>Signed integer</td>
+						<td>2bytes</td>
+						<td>–32768</td>
+						<td>32767</td>
+						</tr>
+						<tr>
+						<td>Int</td>
+						<td>Signed integer</td>
+						<td>4bytes</td>
+						<td>–2<sup>31</sup></td>
+						<td>2<sup>31</sup>–1</td>
+						</tr>
+						<tr>
+						<td>Long</td>
+						<td>Signed integer</td>
+						<td>8bytes</td>
+						<td>2<sup>63</sup></td>
+						<td>2<sup>63</sup>–1</td>
+						</tr>
+						<tr>
+						<td>Float</td>
+						<td>Signed floating point</td>
+						<td>4bytes</td>
+						<td>n/a</td>
+						<td>n/a</td>
+						</tr>
+						<tr>
+						<td>Double</td>
+						<td>Signed floating point</td>
+						<td>8bytes</td>
+						<td>n/a</td>
+						<td>n/a</td>
+						</tr>
+						</tbody>
+					</table>
+
+					</section>
+
+
+					<section>
+						<h2 id="data_1">Data</h2> 
+						<p>Nonnumeric Types Instantiables:</p>
+						<table>
+							<thead>
+							<tr>
+							<th>Name</th>
+							<th>Description</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr>
+							<td>Char</td>
+							<td>Unicode character</td>
+							</tr>
+							<tr>
+							<td>Boolean</td>
+							<td>true or false</td>
+							</tr>
+							<tr>
+							<td>String</td>
+							<td>A string of characters (i.e., text)</td>
+							</tr>
+							</tbody>
+						</table>
+					</section>
+
+				
+					<section>
+						<h2 id="data_1">Data</h2> 
+						<p>Nonnumeric Types Non-Instantiables:</p>
+						<table>
+							<thead>
+							<tr>
+							<th>Name</th>
+							<th>Description</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr>
+							<td>Any</td>
+							<td>The root of all types in Scala</td>
+							</tr>
+							<tr>
+							<td>AnyVal</td>
+							<td>The root of all value types</td>
+							</tr>
+							<tr>
+							<td>AnyRef</td>
+							<td>The root of all reference (nonvalue) types</td>
+							</tr>
+							<tr>
+							<td>Nothing</td>
+							<td>The subclass of all types</td>
+							</tr>
+							<tr>
+							<td>Null</td>
+							<td>The subclass of all AnyRef types signifying a null value</td>
+							</tr>
+							<tr>
+							<td>Unit</td>
+							<td>Denotes the lack of a value</td>
+							</tr>
+							</tbody>
+						</table>
+					</section>
+
+					<section>
+						<h2 id="data_1">Data</h2> 
+						<p>Data Types Summary:</p>
+						<p><img alt="" src="./images/dataTypes.png" /> </p>
+					</section>
+					
+					<section>
+						<h2 id="data_1">Data</h2> 
+						<p><strong>Naming:</strong></p>
+						<p style="text-align: left" >Scala names can use letters, numbers, and a range of special operator characters. <br />
+This makes it possible to use standard mathematical operators (e.g., * and :+ ) and constants (e.g., π and φ ) in place of longer names to make the code more expressive.</p>
+<p><strong>Camel Case Convention:</strong><br/></p>
+<p style="text-align: left">
+- Value and variable names -&gt; start with a lowercase letter and then capitalize additional words. <br />
+- Types and classes follow camel case but start with an uppercase letter.</p>
+					</section>
+
+					<section>
+						<p>Exercise:</p>
+						<p> Using the formula (x*9/5)+32 </p>
+						<p> Find the temperature in Farenheit </p>
+					</section>
+					<section>
+						<p> Using the formula (x*9/5)+32 </p>
+						<p> Find the temperature in Farenheit </p>
+						<p>Solution:</p>
+  						<pre><code class="scala">scala> val celcius = 24
+scala> val farenheit = (celcius*9/5)+32
+farenheit: Int = 75
+</code></pre>
+					</section>
+						
+				
+				</section>
+
+				<section>
+					<section>
+					
+						<h2 id="expression">Expressions</h2>					
+						<p><strong>Definition:</strong> A single unit of code that returns a value:</p>
+						<pre><code class="scala">scala> "hello"
+res0: String = hello
+
+scala> "hel" + 'l' + "o"
+res1: String = hello</code></pre>
+						<p><strong>Syntax:</strong> Defining Values and Variables, Using Expressions:<p>						
+						<pre><code class="scala">val &lt;identifier&gt;[: &lt;type&gt;] = &lt;expression&gt;
+var &lt;identifier&gt;[: &lt;type&gt;] = &lt;expression&gt;</code></pre>							
+
+					</section>
+
+					<section>
+						<h2 id="expression">Expressions</h2>					
+						<p><strong>Blocks:</strong></p>
+						<pre><code class="scala">scala> val x = 5 * 20; val amount = x + 10
+x: Int = 100
+amount: Int = 110</code></pre>
+						<pre><code class="scala">scala> val amount = { val x = 5 * 20; x + 10 }
+amount: Int = 110</code></pre>		
+						<p>Or accross several lines:</p>
+						<pre><code class="scala">scala> val amount = {
+		    val x = 5 * 20
+		    x + 10
+		    }
+amount: Int = 110</code></pre>								
+
+					</section>
+					<section>
+						<h2 id="expression">Expressions</h2>					
+						<p><strong>If...Else expression:</strong></p>
+						<p><strong>Syntax:</strong></p>
+						<pre><code class="scala">if ( &lt;boolean expression=""&gt;)  &lt;expression&gt;
+else  &lt;expression&gt;</code></pre>
+						<p><strong>Example:</strong></p>
+						<pre><code class="scala">scala> val x = 10; val y = 20
+x: Int = 10
+y: Int = 20
+scala> val max = if (x > y) x else y
+max: Int = 20</code></pre>
+									
+
+					</section>
+					<section>
+						<h2 id="expression">Expressions</h2>					
+						<p><strong>Match expression:</strong></p>
+						<p><strong>Syntax:</strong></p>
+						<pre><code class="scala">&lt;expression&gt; match {
+case &lt;pattern match=""&gt; =&gt; &lt;expression&gt;
+[case...]
+}</code></pre>
+						<p><strong>Example:</strong></p>
+						<pre><code class="scala">scala> val x = 10; val y = 20
+x: Int = 10
+y: Int = 20
+scala> val max = x > y match {
+case true => x
+case false => y
+ }
+max: Int = 20</code></pre>
+									
+
+					</section>
+					<section>
+						<h2 id="expression">Expressions</h2>					
+						<p><strong>Loops:</strong></p>
+						<p><strong>Syntax:</strong></p>
+						<pre><code class="scala">&lt;expression&gt; for (&lt;identifier&gt; <- &lt;iterator&gt;) [yield] [&lt;expression&gt;]
+</code></pre>
+						<p><strong>Example:</strong></p>
+						<pre><code class="scala">scala> val threes = for (i <- 1 to 20 if i % 3 == 0) yield i
+threes: scala.collection.immutable.IndexedSeq[Int] = Vector(3, 6, 9, 12, 15, 18) </code></pre>
+									
+
+					</section>
+					<section>
+						<h2 id="expression">Expressions</h2>					
+						<p><strong>Exercise:</strong></p>
+						<p style="text-align: left">Given a double <strong >amount</strong > , write an expression to return “greater” if it is more than zero, “same” if it equals zero, and “less” if it is less than zero. Can you write this with if..else blocks? How about with match expressions?</p>
+					</section>
+					<section>
+						<h2 id="expression">Expressions</h2>					
+						<p><strong>Exercise: Solution</strong></p>
+						<p style="text-align: left">Given a double <strong >amount</strong > , write an expression to return “greater” if it is more than zero, “same” if it equals zero, and “less” if it is less than zero. Can you write this with if..else blocks? How about with match expressions?</p>
+						<pre><code class="scala">scala> val amount = 1.1
+scala> if (amount > 0) "greater" else if (amount < 0) "less" else "same"
+res0: String = greater</code></pre> 	
+						<pre><code class="scala">scala> amount match {
+case x if x > 0 => "greater"
+case x if x < 0 => "lesser"
+case x => "same"
+}
+res1: String = greater</code></pre> 					
+					</section>
+				</section>
+				<section>
+					<section>
+					<h2 id="functions">Functions</h2>
+					<li style="text-align: left"><strong>Functional programming languages</strong> are geared to support the creation of highly reusable and composable functions.</li>
+					<li style="text-align: left">A simple function (e.g., to double a number) may be picked up and applied
+across a 50,000-node list, or given to an actor to be executed either locally or in a remote server.</li>
+					</section>
+					<section>
+					<h2 id="functions">Functions</h2>
+					<p><strong>Syntax:</strong> </p>
+					<pre><code class="scala">def &lt;identifier&gt;(&lt;identifier&gt;: &lt;type&gt;[, ... ]): &lt;type&gt; = &lt;expression&gt;</code></pre>
+					<p><strong>Example:</strong> Function that performs an multiplication</p>
+					<pre><code class="scala">scala> def multiplier(x: Int, y: Int): Int = { x * y }
+multiplier: (x: Int, y: Int)Int
+scala> multiplier(6, 7)
+res0: Int = 42 </code></pre>
+					
+					</section>
+					<section>
+					<h2 id="functions">Functions</h2>
+					<p><strong>Recursive Functions:</strong> </p>
+					<p style="text-align: left" ><strong>Definition:</strong> A function that may invoke itself, preferably with some type of parameter or external condition that will be checked to avoid an infinite loop</p>
+					<p style="text-align: left" ><strong>Example:</strong> A recursive function that raises an integer by a given positive exponent:</p>
+					<pre><code class="scala">scala> def power(x: Int, n: Int): Long = {
+if (n >= 1) x * power(x, n-1)
+else 1
+}
+power: (x: Int, n: Int)Long
+scala> power(2, 8)
+res6: Long = 256</code></pre>
+					
+					</section>
+					<section>
+						<h2 id="functions">Functions</h2>					
+						<p><strong>Exercise:</strong></p>
+						<p style="text-align: left">Write a function that computes the area of a circle given its radius.</p>
+					</section>
+					<section>
+						<h2 id="functions">Functions</h2>					
+						<p><strong>Exercise: Solution</strong></p>
+						<p style="text-align: left">Write a function that computes the area of a circle given its radius.</p>
+						<pre><code class="scala">scala> def area(r:Double) = r * r * 3.14159</code></pre>
+						<p> Or:</p>
+						<pre><code class="scala">scala> import scala.math._
+scala> def area(r:Double) = Pi*pow(r,2)
+</code></pre>						
+					</section>
+					<section>
+					<h2 id="functions">Functions</h2>
+					<p><strong>Partially Applied Functions and Currying</strong> </p>
+					<p>Example of Partialy Applied Function </p>
+					<pre><code class="scala">scala> def factorOf(x: Int, y: Int) = y % x == 0
+factorOf: (x: Int, y: Int)Boolean</code></pre>
+					<pre><code class="scala">scala> val multipleOf3 = factorOf(3, _: Int)
+multipleOf3: Int => Boolean = &lt;function1&gt;
+scala> val y = multipleOf3(78)
+y: Boolean = true</code></pre>
+					</section>
+					<section>
+					<h2 id="functions">Functions</h2>
+					<p><strong>Partially Applied Functions and Currying</strong> </p>
+					<p>Example of Currying</p>
+<p style="text-align: left">Instead of breaking up a parameter list into applied and unapplied parameters, apply the parameters for one list while leaving another list unapplied.</p>
+					<pre><code class="scala">scala> def factorOf(x: Int)(y: Int) = y % x == 0
+factorOf: (x: Int)(y: Int)Boolean</code></pre>
+					<pre><code class="scala">scala> val multipleOf3 = factorOf(3) _
+multipleOf3: Int => Boolean = &lt;function1&gt;
+scala> val y = multipleOf3(78)
+y: Boolean = true</code></pre>
+					
+					</section>
+					<section>
+					<h2 id="functions">Functions</h2>
+					<p>Exercise:</p>
+					<p style="text-align: left"> Write a function literal that takes two integers and returns the higher number.</p>
+					<p style="text-align: left">Then write a higher-order function that takes a 3-sized tuple of integers plus this function literal, and uses it to return the maximum value in the tuple.</p>
+					</section>
+
+					<section>
+					<h2 id="functions">Functions</h2>
+					<p>Result:</p>
+					<p style="text-align: left"> Write a function literal that takes two integers and returns the higher number. Then
+write a higher-order function that takes a 3-sized tuple of integers plus this function
+literal, and uses it to return the maximum value in the tuple.</p>
+						<pre><code>scala> val max = (x: Int, y: Int) => if (x > y) x else y
+max: (Int, Int) => Int = &lt;function2&gt;
+
+scala> max(23, 32)
+res0: Int = 32</code></pre>
+
+<pre><code>scala> def pickOne(t: (Int, Int, Int), cmp: (Int, Int) => Int): Int = {
+cmp(t._1, cmp(t._2, t._3))
+}
+pickOne: (t: (Int, Int, Int), cmp: (Int, Int) => Int)Int
+
+scala> pickOne( (14, 7, 9), max )
+res1: Int = 14</code></pre>
+					</section>
+					
+
+
+				</section>
+				<section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p style="text-align: left">Data structures for collecting one or more values of a given type such as arrays, lists, maps, sets, and trees.</p>
+					<p style="text-align: left">List: An ordered collection (also known as a sequence). The user of this interface has precise control over where in the list each element is inserted. The user can access elements by their integer index (position in the list), and search for elements in the list.</p>
+					<p style="text-align: left">Set: A collection that contains no duplicate elements. More formally, sets contain no pair of elements e1 and e2 such that e1.equals(e2), and at most one null element. As implied by its name, this interface models the mathematical set abstraction.</p>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p>Lists, Sets, and Maps</p>
+					<pre><code>scala> val numbers = List(32, 95, 24, 21, 17)
+numbers: List[Int] = List(32, 95, 24, 21, 17)
+
+scala> val colors = List("red", "green", "blue")
+colors: List[String] = List(red, green, blue)
+
+scala> println(s"I have ${colors.size} colors: $colors")
+I have 3 colors: List(red, green, blue)
+
+scala> colors.head
+res0: String = red
+scala> colors.tail
+res1: List[String] = List(green, blue)
+
+scala> colors(1)
+res2: String = green</code></pre>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p>Lists, Sets, and Maps</p>
+					<pre><code>scala> colors.foreach(println)
+red
+green
+blue
+
+scala> val sizes = colors.map( (c: String) => c.size )
+sizes: List[Int] = List(3, 5, 4)
+
+scala> val numbers = List(32, 95, 24, 21, 17)
+numbers: List[Int] = List(32, 95, 24, 21, 17)
+
+scala> val total = numbers.reduce( (a: Int, b: Int) => a + b )
+total: Int = 189
+
+scala> val numbers = 1 :: 2 :: 3 :: Nil
+numbers: List[Int] = List(1, 2, 3)</code></pre>
+					</section>
+
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p>List mapping operations</p>
+					<table>
+						<thead>
+						<tr>
+						<th>Name</th><th>Example</th><th>Description</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+						<td>collect</td><td>List(0, 1, 0) collect {case 1 =>"ok"}</td><td>Transforms each element using a partial function, retaining applicable elements.</td>
+						</tr>
+						<tr><td>flatMap </td><td>List("milk,tea")
+flatMap (_.split(','))</td><td>Transforms each element using the given function and “flattens” the list of results into this list.</td>
+						</tr>						
+						</tbody>
+					</table>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p>List mapping operations</p>
+					<table>
+						<thead>
+						<tr>
+						<th>Name</th><th>Example</th><th>Description</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>						
+						<td>map</td><td>List("milk","tea")
+						map (_.toUpperCase)</td><td>Transforms each element using the given function.</td>
+						</tr>						
+						</tbody>
+					</table>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p>Math reduction operations</p>
+					<table>
+						<thead>
+						<tr>
+						<th>Name</th><th>Example</th><th>Description</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>						
+						<td>max</td><td>List(41, 59, 26).max</td><td>Finds the maximum value in the list.</td>
+						</tr>
+						<tr>
+						<td>min</td><td>List(10.9, 32.5, 4.23, 5.67).min</td><td>Finds the minimum value in the list.</td>
+						<tr>
+						<td>product <td>List(5, 6, 7).product</td> <td>Multiplies the numbers in the list.</td>
+						</tr>
+						<tr><td>sum <td>List(11.3, 23.5, 7.2).sum</td> <td>Sums up the numbers in the list.</td>
+						</tr>
+						</tbody>
+					</table>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p>Boolean reduction operations</p>
+					<table>
+						<thead>
+						<tr>
+						<th>Name</th><th>Example</th><th>Description</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+						<td>contains</td> <td>List(34, 29, 18) contains 29</td><td>Checks if the list contains this element.</td>
+						</tr>
+						<tr>
+						<td>endsWith</td><td>List(0, 4, 3) endsWith List(4, 3)</td><td>Checks if the list ends with a given list.</td>
+						</tr>
+						<tr>
+						<td>exists</td><td>List(24, 17, 32) exists (_ < 18)</td><td> Checks if a predicate holds true for at least one element in the list.</td>
+						</tr>
+						</tbody>
+					</table>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p>Boolean reduction operations</p>
+					<table>
+						<thead>
+						<tr>
+						<th>Name</th><th>Example</th><th>Description</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+						<td>forall</td><td>List(24, 17, 32) forall (_ < 18)</td><td>Checks if a predicate holds true for every element in the list.</td>
+						</tr>
+						<tr>
+						<td>startsWith</td><td>List(0, 4, 3) startsWith List(0)</td><td>Tests whether the list starts with a given list.</td>			
+						</tr>
+					</tbody>
+					</table>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p>Generic list reduction operations</p>
+					<table>
+						<thead>
+						<tr>
+						<th>Name</th><th>Example</th><th>Description</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+						<td>fold</td><td>List(4, 5, 6).fold(0)(_ + _) <td>Reduces the list given a starting value and a reduction function.reduction function.</td>
+						</tr>
+						<tr>
+						<td>foldLeft</td> <td>List(4, 5, 6).foldLeft(0)(_ + _) <td>Reduces the list from left to right given a starting value and a reduction function.</td>
+						</tr>
+						</tbody>
+					</table>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p>Generic list reduction operations</p>
+					<table>
+						<thead>
+						<tr>
+						<th>Name</th><th>Example</th><th>Description</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+						
+						<tr>
+						<td>foldRight</td> <td>List(4, 5, 6).foldRight(0)(_ + _) <td>Reduces the list from right to left given a starting value and a reduction function.</td>
+						</tr>
+						<tr>
+						<td>reduce</td> <td>List(4, 5, 6).reduce(_ + _) <td>Reduces the list given a reduction function, starting with the first element in the list.</td>
+						</tr>
+						</tbody>
+					</table>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p>Generic list reduction operations</p>
+					<table>
+						<thead>
+						<tr>
+						<th>Name</th><th>Example</th><th>Description</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+						<td>reduceLeft</td> <td>List(4, 5, 6).reduceLeft(_ + _) <td>Reduces the list from left to right given a reduction function, starting with the first element in the list. and a reduction function.</td>
+						</tr>
+						<tr>
+						<td>reduceRight</td> <td>List(4, 5, 6).reduceRight(_ + _) <td>Reduces the list from right to left given a reduction function, starting with the first element in the list.</td>
+					</tbody>
+					</table>
+					</section>
+
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p>Generic list reduction operations</p>
+					<table>
+						<thead>
+						<tr>
+						<th>Name</th><th>Example</th><th>Description</th>
+						</tr>
+						</thead>
+						<tbody>
+						</tr>
+						<tr>
+						<td>scan</td> <td>List(4, 5, 6).scan(0)(_ + _) <td>Takes a starting value and a reduction function and returns a list of each accumulated value.</td>
+						</tr>
+						<tr>
+						<td>scanLeft</td> <td>List(4, 5, 6).scanLeft(0)(_ + _) <td>Takes a starting value and a reduction function and returns a list of each accumulated value from left to right.</td>
+						</tr>
+					</tbody>
+					</table>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+					<p>Generic list reduction operations</p>
+					<table>
+						<thead>
+						<tr>
+						<th>Name</th><th>Example</th><th>Description</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+						<td>scanRight</td> <td>List(4, 5, 6).scanRight(0)(_ + _) <td>Takes a starting value and a reduction function and returns a list of each accumulated value from right to left.</td>
+						</tr>
+						</tbody>
+					</table>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+						<p>Exercise:</p>
+						<p style="text-align: left"> Write a function, first[A](items: List[A], count: Int): List[A] , that re‐ turns the first x number of items in a given list. <br>For example, first(List('a','t','o'), 2) should return List('a','t') .</p>
+						<p style="text-align: left"> You could make this a one-liner by invoking one of the built-in list operations that already performs this task, or (preferably) implement your own solution. <br>Can you do so with a for- loop? <br>With foldLeft ? <br>With a recursive function that only accesses head and tail ?</p>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+						<p>Solution:</p>
+						<pre><code>scala> val chars = ('a' to 'f').toList
+chars: List[Char] = List(a, b, c, d, e, f)
+
+scala> def first[A](items: List[A], count: Int): List[A] = items take count
+first: [A](items: List[A], count: Int)List[A]
+
+scala> first(chars, 3)
+res0: List[Char] = List(a, b, c)</code></pre>
+					</section>
+
+					<section>
+					<h2 id="Collections">Collections</h2>
+						<p>Solution: for loop</p>
+						<pre><code>scala> def first[A](items: List[A], count: Int): List[A] = {
+     val l = for (i <- 0 until count) yield items(i)
+     l.toList
+     }
+first: [A](items: List[A], count: Int)List[A]
+
+scala> first(chars, 3)
+res1: List[Char] = List(a, b, c)</code></pre>
+					</section>
+					<section>
+					<h2 id="Collections">Collections</h2>
+						<p>Solution: fold left</p>
+						<pre><code>scala> def first[A](items: List[A], count: Int): List[A] = {
+     items.foldLeft[List[A]](Nil) { (a: List[A], i: A) =>
+     if (a.size >= count) a else i :: a
+     }.reverse
+     }
+first: [A](items: List[A], count: Int)List[A]
+
+scala> first(chars, 3)
+res2: List[Char] = List(a, b, c)</code></pre>
+					</section>	
+					<section>
+					<h2 id="Collections">Collections</h2>
+						<p>Solution: recursive function</p>
+						<pre><code>scala> def first[A](items: List[A], count: Int): List[A] = {
+     if (count > 0 && items.tail != Nil) items.head :: first(items.tail, count - 1)
+     else Nil
+     }
+first: [A](items: List[A], count: Int)List[A]
+
+scala> first(chars, 3)
+res3: List[Char] = List(a, b, c)</code></pre>
+					</section>
+
+				</section>
+				<section>
+					<section>
+					<h1 id="Spark">Spark</h1>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+						<h2 id="Spark deploy modes">Spark deploy modes</h2>
+
+						<ul>
+							<li>**Standalone:** Without having Yarn or Mesos, you can run your own cluster by starting a master and workers manually.</li>
+							<li>**Yarn:** Yarn becomes the cluster manager in this mode and of course we have something call Spark Application Master.</li>
+							<li>**Mesos:** The same as standalone mode, except that the cluster manager, which was Spark master, is replaced by Mesos.</li>
+						</ul>
+						</script>
+					</section>
+					<section body class="home">
+					<h2 id="Spark deploy modes">Spark deploy modes</h2>
+					<p>
+					<object data="your.svg" type="image/svg+xml">
+  					<img class="plain" width="300px" src="images/deploy_modes.png"  />
+					</object>
+					</p>
+					<p>Standalone mode is very useful for debugging and testing. With 2-3 virtual machines in your own machine, you can see Spark in action quite well.</p>				
+					</section>
+					<section>
+					<h2 id="Spark pseudo cluster">Spark local (pseudo-cluster)</h2>
+					<p>Start master:</p>
+					<pre><code class="shell">$./sbin/start-master.sh</code></pre>
+					<p>
+					<object data="your.svg" type="image/svg+xml">
+  					<img class="plain" width="1200px" src="images/pseudoCluster1.png"  />
+					</object>
+					</section>
+					<section>
+					<h2 id="Spark pseudo cluster">Spark local (pseudo-cluster)</h2>
+					<p>Start slaves:</p>
+					<pre><code class="shell">$./sbin/start-slave.sh spark://ulrich-desktop:7077 --cores 2 --memory 4g</code></pre>
+					<p>
+					<object data="your.svg" type="image/svg+xml">
+  					<img class="plain" width="1200px" src="images/pseudoCluster2.png"  />
+					</object>
+					</section>
+					<section>
+					<p>Configure file: conf/spark-env.sh</p>
+					<pre><code> SPARK_WORKER_CORES=5
+SPARK_WORKER_INSTANCES=2
+SPARK_WORKER_MEMORY=30g
+SPARK_EXECUTOR_MEMORY=30g
+</code></pre>
+
+					<p>Start the workers </p>
+
+					<pre><code>$./sbin/start-slave.sh spark://ulrich-desktop:7077</code></pre>
+					<p>
+					<object data="your.svg" type="image/svg+xml">
+  					<img class="plain" width="1200px" src="images/pseudoCluster3.png"  />
+					</object>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+						<h2 id="Executing Spark Code">Executing Spark Code</h2>
+
+						<ul>
+							<li>**Spark Submit**</li>
+							<li>**Spark Shell**</li>
+							<li>**Notebookes**</li>
+						</ul>
+						</script>
+					</section>
+					<section>
+					<p>Spark Submit</p>
+					<pre><code>./bin/spark-submit \
+  --class <main-class> \#The entry point for your application (e.g. org.apache.spark.examples.SparkPi)
+  --master <master-url> \#The master URL for the cluster (e.g. spark://23.195.26.187:7077)
+  --deploy-mode <deploy-mode> \#Whether the driver is deplyed on the worker nodes (cluster) or locally (client) (default: client) †
+  --conf <key>=<value> \#Arbitrary Spark configuration property in key=value format.
+  ... # other options
+  <application-jar> \#Path to a bundled jar including your application and all dependencies. 
+  [application-arguments]#Arguments passed to the main method of your main class, if any </code></pre>
+  					</section>
+					<section>
+					<p>Spark Submit-Example</p>
+					<pre><code># Run application locally on 8 cores
+./bin/spark-submit \
+  --class org.apache.spark.examples.SparkPi \
+  --master local[8] \
+  /path/to/examples.jar \
+  100</pre></code>
+  					
+					</section>
+					<section>
+					<p>Spark Shell</p>
+					<pre><code>$./bin/spark-shell</code></pre>
+					<pre><code>scala> val textFile = sc.textFile("README.md")
+textFile: org.apache.spark.rdd.RDD[String] = README.md MapPartitionsRDD[1] at textFile at <console>:25
+scala> textFile.count() // Number of items in this RDD
+res0: Long = 126
+
+scala> textFile.first() // First item in this RDD
+res1: String = # Apache Spark</code></pre>
+					</section>
+					<section>
+					<p>Notebooks</p>
+					<pre><code>$./bin/zeppelin-daemon.sh start</code></pre>
+					<p>
+					<object data="your.svg" type="image/svg+xml">
+  					<img class="plain" width="300px" src="images/deploy_modes.png"  />
+					</object>
+					</section>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>

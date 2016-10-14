@@ -1,0 +1,55 @@
+http://hubs.ly/H04rSXC0
+
+Intro: Big Data
+- Definition
+- Technologie
+
+
++/- 20 to 60
+1h presentation
+
+
+la situation actuelle:
+-donnees relationelle
+-big data
+
+meme technologie de bout en bout pas de black box
+
+archivage des donnees de calculs et resultat pour 
+
+possibilte de source de donnees commune -> fermer la boucle entre risk et production/pricing/new product
+pas d'ETL _ schema on read
+
+schema on load vs schema on read
+
+vendeurs partie analitique encore old tech
+
+Table vs fichier plats
+
+-cloud -> mutilisation des infrastructures
+-> public vs private cloud -> criptage
+-> prix infrastructure
+
+-volume de calcul-> 
+par contrat x echeance
+
+-stockatsic-> courbe de taux over a pepriod / comportemental limite au portefeuille
+
+ 
+
+
+avantage competitif
+
+
+ALM -> risk de taux
+banking book only (all bilan - trading book -short term -> processus de suivi des risks differents) depots -> invest partie stable
+scenario de base -> projection a bilan constant avec variation de taux
+vision valeur -> impact bilan par variation des courbes de taux
+
+
+
+
+
+
+
+

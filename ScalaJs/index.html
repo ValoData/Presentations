@@ -1193,24 +1193,18 @@ res5: Array[(String, Int)] = Array((version,6), (file,11), (are,12), (refer,3), 
 						<h2 id="Create a new project">Create a new project</h2>
 						<p>File&gt;New&gt;Project</p>
 						<object data="your.svg" type="image/svg+xml">
-						<img class="plain" width="1000px" src="images/NewProject.png"  />
+						<img class="plain" width="800px" src="images/NewProject.png"  />
 						</object>
 				
 					</section>
+
 					<section>
-						<h2 id="Create build.sbt">Create build.sbt</h2>
-						<p>Right click on project name</p>
-						<p>New&gt;File</p>
-						<object data="your.svg" type="image/svg+xml">
-						<img class="plain" width="1000px" src="images/create_buildsbt.png"  />
-						</object>
-				
-					</section>
-					<section>
-						<h2 id="Edit build.sbt">Edit build.sbt</h2>
-						<object data="your.svg" type="image/svg+xml">
-						<img class="plain" width="1000px" src="images/edit_buildsbt.png"  />
-						</object>
+						<h2 id="Check build.sbt">Check build.sbt</h2>
+						<pre><code>name := "test Spark"
+
+version := "1.0"
+
+scalaVersion := "2.11.8"</code></pre>
 				
 					</section>
 					<section>
@@ -1224,7 +1218,7 @@ res5: Array[(String, Int)] = Array((version,6), (file,11), (are,12), (refer,3), 
 					</section>
 					<section>
 						<h2 id="Create code file">Create code file</h2>
-						<p>create main folder under src</p>
+						<p>under src&gt;main&gt;scala-2.11</p>
 						<p>right click new&gt;scala script&gt;wordCount.scala</p>
 						<pre><code>import org.apache.spark.{SparkConf, SparkContext}
 

@@ -893,6 +893,9 @@ SPARK_EXECUTOR_MEMORY=30g
 						</script>
 					</section>
 					<section>
+					<p>With pseudo cluster</p>
+					<pre><code>./bin/spark-shell --master spark://ulrich-desktop:7077</code></pre>
+
 					<p>Spark Submit</p>
 					<pre><code>./bin/spark-submit \
   --class <main-class> \#The entry point for your application (e.g. org.apache.spark.examples.SparkPi)

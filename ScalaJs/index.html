@@ -893,9 +893,7 @@ SPARK_EXECUTOR_MEMORY=30g
 						</script>
 					</section>
 					<section>
-					<p>With pseudo cluster</p>
-					<pre><code>./bin/spark-shell --master spark://ulrich-desktop:7077</code></pre>
-
+					
 					<p>Spark Submit</p>
 					<pre><code>./bin/spark-submit \
   --class <main-class> \#The entry point for your application (e.g. org.apache.spark.examples.SparkPi)
@@ -917,8 +915,8 @@ SPARK_EXECUTOR_MEMORY=30g
   					
 					</section>
 					<section>
-					<p>Spark Shell</p>
-					<pre><code>$./bin/spark-shell</code></pre>
+					<p>Spark Shell with pseudo cluster</p>
+					<pre><code>./bin/spark-shell --master spark://ulrich-desktop:7077</code></pre>
 					<pre><code>scala> val textFile = sc.textFile("README.md")
 textFile: org.apache.spark.rdd.RDD[String] = README.md MapPartitionsRDD[1] at textFile at &lt;console&gt;:25
 scala> textFile.count() // Number of items in this RDD

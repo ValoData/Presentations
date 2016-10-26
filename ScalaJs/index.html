@@ -954,7 +954,14 @@ textFile: org.apache.spark.rdd.RDD[String] = README.md MapPartitionsRDD[1] at te
 
 //parallelize() method
 scala> val sample = sc.parallelize(List(1,2,3))
-sample: org.apache.spark.rdd.RDD[Int] = ParallelCollectionRDD[0] at parallelize at &lt;console&gt;:24</code></pre>
+sample: org.apache.spark.rdd.RDD[Int] = ParallelCollectionRDD[0] at parallelize at &lt;console&gt;:24
+
+//make.rdd()
+scala> sc.makeRDD(List(1,2,3))
+res: org.apache.spark.rdd.RDD[Int] = ParallelCollectionRDD[1] at makeRDD at &lt;console&gt;:25
+
+
+</code></pre>
 					</section>
 					<section data-markdown>
 					<script type="text/template">
@@ -1150,11 +1157,150 @@ res5: Array[(String, Int)] = Array((version,6), (file,11), (are,12), (refer,3), 
 						</ul>
 					</script>
 					</section>
+					<section>
+					<h2 id="Datasets and DataFrames">Datasets and DataFrames</h2>
+						<p style="text-align: left"><b>A Dataset</b> Dataset is a new interface added in Spark 1.6 that combine the benefits of RDDs and Spark SQL’s optimized execution engine. A Dataset can be manipulated using functional transformations (map, flatMap, filter, etc.).</p>
+						<p style="text-align: left"><b>A Dataframe</b> is a Dataset organized into named columns.
+<br><b>Benefits of Dataset APIs:</b>
+<br>1. Type-safety
+<br>2. High-level abstraction and custom view into structured and semi-structured data
+<br>3. Ease-of-use of APIs with structure
+<br>4. Performance and Optimization
+</p>
+					</section>
+					<section>
+					<h2 id="Datasets and DataFrames">Creating Datasets/DataFrames</h2>
+						<pre><code>/////////////////////
+//    DataFrames   //
+////////////////////
+
+scala> List((1,2,3),(3,4,5)).toDF
+res0: org.apache.spark.sql.DataFrame = [_1: int, _2: int ... 1 more field]
+
+scala> List((1,2,3),(3,4,5)).toDF("A","B","C")
+res1: org.apache.spark.sql.DataFrame = [A: int, B: int ... 1 more field]
+
+/////////////////////
+//    DataSets   //
+////////////////////
+
+case class Person(name: String, age: Long)
+
+// Encoders are created for case classes
+val caseClassDS = Seq(Person("Andy", 32)).toDS()
+
+// DataFrames can be converted to a Dataset by providing a class. Mapping will be done by name
+
+scala> val test = Seq(("Rob",23),("Ann",18)).toDF("name","age")
+test: org.apache.spark.sql.DataFrame = [name: string, age: int]
+
+scala> val testDS = test.as[Person]
+testDS: org.apache.spark.sql.Dataset[Person] = [name: string, age: int]
+
+scala> testDS.show()
++----+---+
+|name|age|
++----+---+
+| Rob| 23|
+| Ann| 18|
++----+---+
+
+/////////////////////
+//      To RDD    //
+////////////////////
+
+scala> test.rdd
+res: org.apache.spark.rdd.RDD[org.apache.spark.sql.Row] = MapPartitionsRDD[3] at rdd at &lt;console&gt;:26
+
+scala> testDS.rdd
+res: org.apache.spark.rdd.RDD[Person] = MapPartitionsRDD[3] at rdd at &lt;console&gt;:30
+
+
+</code></pre>
+					</section>
+					<section>
+					<h2 id="Import data">Read-Write Data into Datasets/DataFrames</h2>
+						<pre><code>/////////////////////
+// Using Spark CSV //
+////////////////////
+
+//Read CSV
+scala> val test = spark.read
+		       .format("csv")
+    		       .option("header", "false") // Use first line of all files as header
+    		       .option("inferSchema", "true") // Automatically infer data types
+		       .load("file:///sample.csv")
+		       .toDF("A","B","C")
+test: org.apache.spark.sql.DataFrame = [A: string, B: string ... 1 more fields]
+
+//Write CSV
+scala> df.write
+    .format("csv")
+    .option("header", "true")
+    .save("file:///pathTo.csv")
+
+/////////////////////
+//  Using Parquet  //
+////////////////////
+
+//Read Parket file
+val test = spark.read.parquet("file:///sample.parquet")
+
+//Write Parket file
+val test = spark.write.parquet("file:///sample.parquet")
+
+
+ </code></pre>
+					</section>
+					<section>
+					<h2 id="Datframe operations">DataFrame Operations</h2>
+					<pre><code>scala> val df = List((1,2.1,"a"),(4,5.2,"b")).toDF("A","B","C")
+df: org.apache.spark.sql.DataFrame = [A: int, B: double ... 1 more field]
+
+// Print the schema in a tree format
+scala> df.printSchema()
+root
+ |-- A: integer (nullable = false)
+ |-- B: double (nullable = false)
+ |-- C: string (nullable = true)
+
+// Select only the "A" column
+scala> df.select('A).show()
++---+
+|  A|
++---+
+|  1|
+|  4|
++---+
+
+// Select "A" higher than 1
+scala> df.filter('A > 1).show()
++---+---+---+
+|  A|  B|  C|
++---+---+---+
+|  4|5.2|  b|
++---+---+---+</code></pre>
+					</section>
+					<section>
+					<h2 id="Running SQL Queries Programmatically">Running SQL Queries Programmatically</h2>
+					<pre><code>// Register the DataFrame as a SQL temporary view
+scala> df.createOrReplaceTempView("df")
+
+scala> val sqlDF = spark.sql("SELECT * FROM df")
+scala> sqlDF.show()
++---+---+---+
+|  A|  B|  C|
++---+---+---+
+|  1|2.1|  a|
+|  4|5.2|  b|
++---+---+---+
+</code></pre>
+					</section>
 				</section>
 				<section>
 					<section data-markdown>
 					<script type="text/template">
-					<h1 id="Spark SQL">V- Machine Learning</h1>
+					<h1 id="Machine Learning">V- Machine Learning</h1>
 						<ul>
 							<li>**Datasets and DataFrames**</li>
 							<li>**Running SQL querries**</li>
@@ -1166,7 +1312,7 @@ res5: Array[(String, Int)] = Array((version,6), (file,11), (are,12), (refer,3), 
 				<section>
 					<section data-markdown>
 					<script type="text/template">
-					<h1 id="Spark SQL">VI- Data Visualisation</h1>
+					<h1 id="Data Visualisation">VI- Data Visualisation</h1>
 						<ul>
 							<li>**Datasets and DataFrames**</li>
 							<li>**Running SQL querries**</li>

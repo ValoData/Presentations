@@ -73,7 +73,6 @@
 					<ol> 
 					<strong><li>Scala for Spark</li>
 					<li>Spark</li>
-					<li>RDD Operations</li>
 					<li>Spark SQL</li>
 					<li>Machine Learning</li>
 					<li>Data Visualisation</li>
@@ -1296,7 +1295,69 @@ scala> sqlDF.show()
 +---+---+---+
 </code></pre>
 					</section>
-				</section>
+					<section>
+					<h2 id="UDF">User Defined Functions</h2>
+					<pre><code>// Define a regular Scala function
+scala> val xTwo: Int => Int = _ * 2
+xTwo: Int => Int = <function1>
+
+// Define a UDF that wraps the Scala function defined above
+scala> import org.apache.spark.sql.functions.udf
+import org.apache.spark.sql.functions.udf
+
+scala> val xTwoUDF = udf(xTwo)
+xTwoUDF: org.apache.spark.sql.expressions.UserDefinedFunction = UserDefinedFunction(<function1>,IntegerType,Some(List(IntegerType)))
+
+// Apply the UDF to change the source dataset
+
+scala> dataset.withColumn("xTwo", xTwoUDF('amt)).show
++---+---+---+----+
+| id|ref|amt|xTwo|
++---+---+---+----+
+|  0|foo| 10|  20|
+|  1|bar| 15|  30|
++---+---+---+----+
+
+</code></pre>
+					</section>
+
+					<section>
+						<p> <b> Exercise: </b></p>
+						<p style="text-align: left"> Create a Dataframe listing the members of you family with the following collumns: Surname, Name, Age, Gender</p>
+						<li style="text-align: left">Select the adultes </li>
+						<li style="text-align: left">Count the number of men and women </li>
+						<li style="text-align: left">Convert the Datframe into a Dataset </li>
+  						
+					</section>
+					<section>
+						<p>Solution:</p>
+  						<pre><code>scala> val df = Seq(("Ulrich","Zink",40,"M"),("Mona","Steininger",36,"F"),("Greta","Steininger",2,"F")).toDF("Surname","Name","Age","Gender")
+df: org.apache.spark.sql.DataFrame = [Surname: string, Name: string ... 2 more fields]
+
+scala> df.filter('Age > 18).show()
++-------+----------+---+------+
+|Surname|      Name|Age|Gender|
++-------+----------+---+------+
+| Ulrich|      Zink| 40|     M|
+|   Mona|Steininger| 36|     F|
++-------+----------+---+------+
+
+scala> df.groupBy('Gender).count().show()
++------+-----+
+|Gender|count|
++------+-----+
+|     F|    2|
+|     M|    1|
++------+-----+
+
+scala> case class familly (Surname:String, Name:String, Age:Int, Gender:String)
+defined class familly
+
+scala> df.as[familly]
+res3: org.apache.spark.sql.Dataset[familly] = [Surname: string, Name: string ... 2 more fields]</code></pre>
+					</section>
+
+				</section>				
 				<section>
 					<section data-markdown>
 					<script type="text/template">

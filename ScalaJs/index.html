@@ -73,6 +73,11 @@
 					<ol> 
 					<strong><li>Scala for Spark</li>
 					<li>Spark</li>
+ 						<ul type="a">
+							<li>Scala for Spark</li>
+							<li>Deployment and execution</li>
+							<li>RDD operations</li>
+						</ul>
 					<li>Spark SQL</li>
 					<li>Machine Learning</li>
 					<li>Data Visualisation</li>
@@ -397,7 +402,7 @@ threes: scala.collection.immutable.IndexedSeq[Int] = Vector(3, 6, 9, 12, 15, 18)
 					<section>
 						<h2 id="expression">Expressions</h2>					
 						<p><strong>Exercise:</strong></p>
-						<p style="text-align: left">Given a double <strong >amount</strong > , write an expression to return “greater” if it is more than zero, “same” if it equals zero, and “less” if it is less than zero. Can you write this with if..else blocks? How about with match expressions?</p>
+						<p style="text-align: left">Given a number of type double named <strong >"amount"</strong > , write an expression to return “greater” if it is more than zero, “same” if it equals zero, and “less” if it is less than zero. Can you write this with if..else blocks? How about with match expressions?</p>
 					</section>
 					<section>
 						<h2 id="expression">Expressions</h2>					
@@ -422,13 +427,23 @@ across a 50,000-node list, or given to an actor to be executed either locally or
 					</section>
 					<section>
 					<h2 id="functions">Functions</h2>
-					<p><strong>Syntax:</strong> </p>
-					<pre><code class="scala">def &lt;identifier&gt;(&lt;identifier&gt;: &lt;type&gt;[, ... ]): &lt;type&gt; = &lt;expression&gt;</code></pre>
-					<p><strong>Example:</strong> Function that performs an multiplication</p>
-					<pre><code class="scala">scala> def multiplier(x: Int, y: Int): Int = { x * y }
+					<p>Higher order functions</p>
+					<pre><code class="scala">//Syntax:
+def &lt;identifier&gt;(&lt;identifier&gt;: &lt;type&gt;[, ... ]): &lt;type&gt; = &lt;expression&gt;
+
+//Example function that performs an multiplication:
+scala> def multiplier(x: Int, y: Int): Int = { x * y }
 multiplier: (x: Int, y: Int)Int
 scala> multiplier(6, 7)
 res0: Int = 42 </code></pre>
+					<p>Turning Methods into Functions</p>
+					<pre><code class="scala">scala> val xTwo: Int => Int = _ * 2
+xTwo: Int => Int = &lt;function1&gt;</code></pre>
+					<p>Functions Literals AKA Anonimous functions</p>
+					<pre><code class="scala">(a:Int, b:Int) => a + b
+//You can bind them to variables:
+val add = (a:Int, b:Int) => a + b
+add(1, 2) // Result is 3</code></pre>
 					
 					</section>
 					<section>
@@ -487,7 +502,7 @@ y: Boolean = true</code></pre>
 					<section>
 					<h2 id="functions">Functions</h2>
 					<p>Exercise:</p>
-					<p style="text-align: left"> Write a function literal that takes two integers and returns the higher number.</p>
+					<p style="text-align: left"> Write a function literal that takes two integers and returns the highest number.</p>
 					<p style="text-align: left">Then write a higher-order function that takes a 3-sized tuple of integers plus this function literal, and uses it to return the maximum value in the tuple.</p>
 					</section>
 
@@ -513,17 +528,46 @@ res1: Int = 14</code></pre>
 					</section>
 					<section data-markdown>
 						<script type="text/template">
-					<h2 id="Collections">Collections</h2>
+					<h2 id="Collections">Collections: immutables</h2>
+					<object data="your.svg" type="image/svg+xml">
+						<img class="plain" width="800px" src="images/collections.immutable.png"/>
+						</object>
+					</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+					<h2 id="Collections">Collections: mutables</h2>
+					<object data="your.svg" type="image/svg+xml">
+						<img class="plain" width="800px" src="images/collections.mutable.png"/>
+						</object>
+					</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+					<h2 id="Collections">Immutable collections</h2>
 					<p style="text-align: left">Data structures for collecting one or more values of a given type such as arrays, lists, maps, sets, and trees.</p>
-					<p style="text-align: left">**List:** An ordered collection (sequence). The user can access elements by their integer index.</p>
-					<p style="text-align: left">**Set:** A collection that contains no duplicate elements.</p>
+					<p style="text-align: left">**Array:** An indexed collection (sequence). Array are flat, all elements are of the same type.</p>
+					<p style="text-align: left">**Lists:** An ordered collection (sequence). Lists are recursives and users can access elements by their integer index.</p>
+					<p style="text-align: left">**Sets:** Unordered collection that contains no duplicate elements.</p>
+ 					<p style="text-align: left">**Maps:** Iterable consisting of pairs of keys and values.</p>
+					<p style="text-align: left">**Vectors:** hybride between a List and an Array it provides indexed and linear access.</p>
 					</script>
 					</section>
 					<section>
-					<h2 id="Collections">Collections</h2>
-					<p>Lists, Sets, and Maps</p>
+					<h2 id="Collections">Collections: Arrays</h2>
+					<pre><code>val numbers = Array(1, 2, 3, 4)
+val first = numbers(0) // read the first element
+numbers(3) = 100 // replace the 4th array element with 100
+val biggerNumbers = numbers.map(_ * 2) // multiply all numbers by two</code></pre>
+					</section>
+					<section>
+					<h2 id="Collections">Collections: Lists</h2>
 					<pre><code>scala> val numbers = List(32, 95, 24, 21, 17)
 numbers: List[Int] = List(32, 95, 24, 21, 17)
+
+scala> val numbers1 = (32, 95, 24, 21, 17).toList
+numbers1: List[Int] = List(32, 95, 24, 21, 17)
+someArray.toLIst
 
 scala> val colors = List("red", "green", "blue")
 colors: List[String] = List(red, green, blue)
@@ -537,12 +581,9 @@ scala> colors.tail
 res1: List[String] = List(green, blue)
 
 scala> colors(1)
-res2: String = green</code></pre>
-					</section>
-					<section>
-					<h2 id="Collections">Collections</h2>
-					<p>Lists, Sets, and Maps</p>
-					<pre><code>scala> colors.foreach(println)
+res2: String = green
+
+scala> colors.foreach(println)
 red
 green
 blue
@@ -559,11 +600,220 @@ total: Int = 189
 scala> val numbers = 1 :: 2 :: 3 :: Nil
 numbers: List[Int] = List(1, 2, 3)</code></pre>
 					</section>
-
 					<section>
-					<h2 id="Collections">Collections</h2>
-					<p>List mapping operations</p>
-					<table>
+					<h2 id="Collections">Collections: Sets</h2>
+					<pre><code>scala> val fruit = Set("apple", "orange", "peach", "banana")
+fruit: scala.collection.immutable.Set[java.lang.String] = Set(apple, orange, peach, banana)
+scala> fruit("peach")
+res0: Boolean = true
+scala> fruit("potato")
+res1: Boolean = false</code></pre>
+					</section>
+					<section>
+					<h2 id="Collections">Collections: Maps</h2>
+					<pre><code>//Immutable Map class is the default:
+val states = Map("AL" -> "Alabama", "AK" -> "Alaska")
+
+//Mutable Map, needs to be imported first:
+var states = scala.collection.mutable.Map("AL" -> "Alabama")
+
+// create an empty map
+var states = scala.collection.mutable.Map[String, String]()
+
+// create a map with initial elements
+var states = scala.collection.mutable.Map("AL" -> "Alabama", "AK" -> "Alaska")
+
+// add elements with +=
+states += ("AZ" -> "Arizona")
+states += ("CO" -> "Colorado", "KY" -> "Kentucky")
+
+// remove elements with -=
+states -= "KY"
+states -= ("AZ", "CO")
+
+// update elements by reassigning them
+states("AK") = "Alaska, The Big State
+</code></pre>
+					</section>
+<section>
+					<h2 id="Vectors">Collections: Vectors</h2>
+					<pre><code>val v1 = Vector(0,10,20,30,40)
+val v2 = v1 :+ 50
+val v3 = v2 :+ 60
+val v4 = v3(4)
+val v5 = v4(5)
+</code></pre>
+					</section>
+					<section>
+					<h2 id="Collections">Collections: Methodes</h2>
+					<pre><code>//Map works by applying a function to each element in the list.
+scala> val lst = List(1,2,3,4,5)
+
+scala> lst.map(x=> x*2)
+res0: List[Int] = List(2, 4, 6, 8, 10)
+
+scala> lst.map(_*2)
+res3: List[Int] = List(2, 4, 6, 8, 10)
+
+
+//flatmap returns a sequence for each element in the list
+scala> def f(x:Int) = List(x-1, x, x+1)
+
+scala> lst.map(x=> f(x))
+res1: List[List[Int]] = List(List(0, 1, 2), List(1, 2, 3), List(2, 3, 4), List(3, 4, 5), List(4, 5, 6))
+
+scala> lst.flatMap(x=> f(x))
+res2: List[Int] = List(0, 1, 2, 1, 2, 3, 2, 3, 4, 3, 4, 5, 4, 5, 6)
+
+//filter:  creates a new collection that contains only the elements that match the filtering criteria.
+
+scala> val x = List.range(1, 10)
+x: List[Int] = List(1, 2, 3, 4, 5, 6, 7, 8, 9)
+
+// create a list of all the even numbers in the list
+scala> val evens = x.filter(_ % 2 == 0)
+evens: List[Int] = List(2, 4, 6, 8)
+
+//foreach : iterates over a list
+
+val x = List(1,2,3)
+x: List[Int] = List(1, 2, 3)
+
+scala> x.foreach(sum += _)
+6</code></pre>
+					</section>
+					<section>
+					<h2 id="Collections">Collections: Methodes Accumulate and Decumulate</h2>
+					<pre><code>/////////////
+//Accumulte
+////////////////
+
+//From LEFT and forwards...
+////////////
+
+//With a collection of elements abc and a binary operator add we can explore what the different fold functions do when going forwards from the LEFT element of the collection (from A to C):
+
+val abc = List("A", "B", "C")
+
+def add(res: String, x: String) = { 
+  println(s"op: $res + $x = ${res + x}")
+  res + x
+}
+
+abc.reduceLeft(add)
+// op: A + B = AB
+// op: AB + C = ABC    // accumulates value AB in *first* operator arg `res`
+// res: String = ABC
+
+abc.foldLeft("z")(add) // with start value "z"
+// op: z + A = zA      // initial extra operation
+// op: zA + B = zAB
+// op: zAB + C = zABC
+// res: String = zABC
+
+abc.scanLeft("z")(add)
+// op: z + A = zA      // same operations as foldLeft above...
+// op: zA + B = zAB
+// op: zAB + C = zABC
+// res: List[String] = List(z, zA, zAB, zABC) // maps intermediate results
+
+//From RIGHT and backwards...
+//////////////
+
+
+//If we start with the RIGHT element and go backwards (from C to A) we'll notice that now the second argument to our binary operator accumulates the result (the operator is the same, we just switched the argument names to make their roles clear):
+
+def add(x: String, res: String) = {
+  println(s"op: $x + $res = ${x + res}")
+  x + res
+}
+
+abc.reduceRight(add)
+// op: B + C = BC
+// op: A + BC = ABC  // accumulates value BC in *second* operator arg `res`
+// res: String = ABC
+
+abc.foldRight("z")(add)
+// op: C + z = Cz
+// op: B + Cz = BCz
+// op: A + BCz = ABCz
+// res: String = ABCz
+
+abc.scanRight("z")(add)
+// op: C + z = Cz
+// op: B + Cz = BCz
+// op: A + BCz = ABCz
+// res: List[String] = List(ABCz, BCz, Cz, z)
+.
+
+////////////
+//De-cumulate
+///////////
+
+//From LEFT and forwards...
+//////////////////
+
+If instead we were to de-cumulate some result by subtraction starting from the LEFT element of a collection, we would cumulate the result through the first argument res of our binary operator minus:
+
+val xs = List(1, 2, 3, 4)
+
+def minus(res: Int, x: Int) = {
+  println(s"op: $res - $x = ${res - x}")
+  res - x
+}
+
+xs.reduceLeft(minus)
+// op: 1 - 2 = -1
+// op: -1 - 3 = -4  // de-cumulates value -1 in *first* operator arg `res`
+// op: -4 - 4 = -8
+// res: Int = -8
+
+xs.foldLeft(0)(minus)
+// op: 0 - 1 = -1
+// op: -1 - 2 = -3
+// op: -3 - 3 = -6
+// op: -6 - 4 = -10
+// res: Int = -10
+
+xs.scanLeft(0)(minus)
+// op: 0 - 1 = -1
+// op: -1 - 2 = -3
+// op: -3 - 3 = -6
+// op: -6 - 4 = -10
+// res: List[Int] = List(0, -1, -3, -6, -10)
+
+//From RIGHT and backwards...
+////////////////////////
+
+//But look out for the xRight variations now! Remember that the (de-)cumulated value in the xRight variations is passed to the second parameter res of our binary operator minus:
+
+def minus(x: Int, res: Int) = {
+  println(s"op: $x - $res = ${x - res}")
+  x - res
+}
+
+xs.reduceRight(minus)
+// op: 3 - 4 = -1
+// op: 2 - -1 = 3  // de-cumulates value -1 in *second* operator arg `res`
+// op: 1 - 3 = -2
+// res: Int = -2
+
+xs.foldRight(0)(minus)
+// op: 4 - 0 = 4
+// op: 3 - 4 = -1
+// op: 2 - -1 = 3
+// op: 1 - 3 = -2
+// res: Int = -2
+
+xs.scanRight(0)(minus)
+// op: 4 - 0 = 4
+// op: 3 - 4 = -1
+// op: 2 - -1 = 3
+// op: 1 - 3 = -2
+// res: List[Int] = List(-2, 3, -1, 4, 0) </code></pre>
+					</section>
+
+					<!---- <table>
 						<thead>
 						<tr>
 						<th>Name</th><th>Example</th><th>Description</th>
@@ -580,8 +830,8 @@ flatMap (_.split(','))</td><td>Transforms each element using the given function 
 					</table>
 					</section>
 					<section>
-					<h2 id="Collections">Collections</h2>
-					<p>List mapping operations</p>
+					<h2 id="Collections">Collections: operations</h2>
+					<p>List mapping</p>
 					<table>
 						<thead>
 						<tr>
@@ -597,8 +847,8 @@ flatMap (_.split(','))</td><td>Transforms each element using the given function 
 					</table>
 					</section>
 					<section>
-					<h2 id="Collections">Collections</h2>
-					<p>Math reduction operations</p>
+					<h2 id="Collections">Collections: operations</h2>
+					<p>Map reduction</p>
 					<table>
 						<thead>
 						<tr>
@@ -620,8 +870,8 @@ flatMap (_.split(','))</td><td>Transforms each element using the given function 
 					</table>
 					</section>
 					<section>
-					<h2 id="Collections">Collections</h2>
-					<p>Boolean reduction operations</p>
+					<h2 id="Collections">Collections: operations</h2>
+					<p>Boolean reduction</p>
 					<table>
 						<thead>
 						<tr>
@@ -642,8 +892,8 @@ flatMap (_.split(','))</td><td>Transforms each element using the given function 
 					</table>
 					</section>
 					<section>
-					<h2 id="Collections">Collections</h2>
-					<p>Boolean reduction operations</p>
+					<h2 id="Collections">Collections: operations</h2>
+					<p>Boolean reduction</p>
 					<table>
 						<thead>
 						<tr>
@@ -661,8 +911,8 @@ flatMap (_.split(','))</td><td>Transforms each element using the given function 
 					</table>
 					</section>
 					<section>
-					<h2 id="Collections">Collections</h2>
-					<p>Generic list reduction operations</p>
+					<h2 id="Collections">Collections: operations</h2>
+					<p>Generic list reduction</p>
 					<table>
 						<thead>
 						<tr>
@@ -680,8 +930,8 @@ flatMap (_.split(','))</td><td>Transforms each element using the given function 
 					</table>
 					</section>
 					<section>
-					<h2 id="Collections">Collections</h2>
-					<p>Generic list reduction operations</p>
+					<h2 id="Collections">Collections: operations</h2>
+					<p>Generic list reduction</p>
 					<table>
 						<thead>
 						<tr>
@@ -701,8 +951,8 @@ flatMap (_.split(','))</td><td>Transforms each element using the given function 
 					</table>
 					</section>
 					<section>
-					<h2 id="Collections">Collections</h2>
-					<p>Generic list reduction operations</p>
+					<h2 id="Collections">Collections: operations</h2>
+					<p>Generic list reduction</p>
 					<table>
 						<thead>
 						<tr>
@@ -720,8 +970,8 @@ flatMap (_.split(','))</td><td>Transforms each element using the given function 
 					</section>
 
 					<section>
-					<h2 id="Collections">Collections</h2>
-					<p>Generic list reduction operations</p>
+					<h2 id="Collections">Collections: operations</h2>
+					<p>Generic list reduction</p>
 					<table>
 						<thead>
 						<tr>
@@ -740,8 +990,8 @@ flatMap (_.split(','))</td><td>Transforms each element using the given function 
 					</table>
 					</section>
 					<section>
-					<h2 id="Collections">Collections</h2>
-					<p>Generic list reduction operations</p>
+					<h2 id="Collections">Collections: operations</h2>
+					<p>Generic list reduction</p>
 					<table>
 						<thead>
 						<tr>
@@ -810,9 +1060,61 @@ first: [A](items: List[A], count: Int)List[A]
 
 scala> first(chars, 3)
 res3: List[Char] = List(a, b, c)</code></pre>
-					</section>
+					</section> --->
 
-				
+					<section>
+					<h2 id="Classes">Classes</h2>
+						<p>Classes are static templates that can be instantiated into many objects at runtime.</p>
+						<pre><code>scala> class Point(var x: Int, var y: Int) {
+  def move(dx: Int, dy: Int): Unit = {
+    x = x + dx
+    y = y + dy
+  }
+  override def toString: String =
+    "(" + x + ", " + y + ")"
+}
+
+//Singletons: can only be instantiated once
+scala> object Classes {
+		  def main(args: Array[String]) {
+		    val pt = new Point(1, 2)
+		    println(pt)
+		    pt.move(10, 10)
+		    println(pt)
+		  }
+		}
+
+//Case classes -> class with case modifier
+
+scala> case class Email(sourceEmail: String, title: String, body: String) 
+
+scala> val emailFromJohn = Email("john.doe@mail.com", "Greetings From John!", "Hello World!")
+
+scala> emailFromJohn.title
+res6: String = Greetings From John!</code></pre>
+					</section>
+					<section>
+					<h2 id="Pattern">Pattern Matching</h2>
+						<pre><code>scala> object MatchTest1 extends App {
+def matchTest1(x: Int){
+def matchTest(x: Int): String = x match {
+    case 1 => "one"
+    case 2 => "two"
+    case _ => "many"
+  }
+  println(matchTest(x))}
+
+matchTest1(1)
+one</code></pre>
+					</section>
+					<section>
+					<h2 id="Closure">Closure</h2>
+					<p>A closure is a function, whose return value depends on the value of one or more variables declared outside this function.</p>
+					<pre><code>scala> val multiplier = (i:Int) => i * 10
+
+multiplier(10)
+100</code></pre>
+					</section>
 				</section>
 
 				<section>
@@ -1305,7 +1607,7 @@ scala> sqlDF.show()
 					<h2 id="UDF">User Defined Functions</h2>
 					<pre><code>// Define a regular Scala function
 scala> val xTwo: Int => Int = _ * 2
-xTwo: Int => Int = <function1>
+xTwo: Int => Int =  &lt;function1&gt;
 
 // Define a UDF that wraps the Scala function defined above
 scala> import org.apache.spark.sql.functions.udf
